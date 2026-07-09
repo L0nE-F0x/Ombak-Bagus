@@ -15,7 +15,28 @@ Marketing site + Windows installer live in [`website/`](website/).
 | Build command | *(none)* |
 
 Config: [`netlify.toml`](netlify.toml)  
-Installer path: `website/downloads/Ombak-Bagus-Setup-0.1.0.exe`
+Windows installer (Netlify): `website/downloads/Ombak-Bagus-Setup-0.1.0.exe`  
+Mac + Windows release builds: [GitHub Releases](https://github.com/L0nE-F0x/Ombak-Bagus/releases) (via CI)
+
+## CI builds (Windows + Mac)
+
+You **do not need a Mac**. GitHub Actions builds installers on cloud runners.
+
+Workflow: [`.github/workflows/release.yml`](.github/workflows/release.yml)
+
+### How to ship a release
+
+1. **One-time:** repo **Settings → Actions → General → Workflow permissions → Read and write permissions** (if release upload fails).
+2. On GitHub: **Actions → Release → Run workflow**  
+   **or** tag and push:
+   ```bash
+   git tag v0.1.0
+   git push origin v0.1.0
+   ```
+3. Wait for the three jobs (Windows, Mac Apple Silicon, Mac Intel).
+4. Open **Releases** — download `.exe` / `.dmg` and send links to friends.
+
+Mac builds use **ad-hoc signing** (`signingIdentity: "-"`). Friends may need right-click → Open the first time. Full Apple notarization needs an Apple Developer account (optional later).
 
 ## Features
 

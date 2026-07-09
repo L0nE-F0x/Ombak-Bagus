@@ -1,0 +1,94 @@
+# Builds Windows + macOS installers with Tauri and publishes a GitHub Release.
+# You do NOT need a Mac: GitHub's macOS runners do the Mac build.
+#
+# Trigger options:
+#   1. GitHub → Actions → "Release" → Run workflow
+#   2. git tag v0.1.0 && git push origin v0.1.0
+#
+# One-time repo setting if the release step fails with permissions:
+#   Settings → Actions → General → Workflow permissions → Read and write
+
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Apple Silicon (M1 / M2 / M3 / M4) — most Mac laptops today
+          - platform: macos-latest
+            args: "--target aarch64-apple-darwin"
+            label: macOS Apple Silicon
+          # Intel Macs
+          - platform: macos-latest
+            args: "--target x86_64-apple-darwin"
+            label: macOS Intel
+          # Windows x64
+          - platform: windows-latest
+            args: ""
+            label: Windows x64
+
+    runs-on: ${{ matrix.platform }}
+    name: Build (${{ matrix.label }})
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build and attach to GitHub Release
+        uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: .
+          tagName: v__VERSION__
+          releaseName: "Ombak Bagus v__VERSION__"
+          releaseBody: |
+            ## Downloads
+
+            | Platform | File |
+            |----------|------|
+            | **Windows** | `…_x64-setup.exe` |
+            | **Mac (Apple Silicon)** | `…_aarch64.dmg` |
+            | **Mac (Intel)** | `…_x64.dmg` |
+
+            ### Mac note
+            Builds are **ad-hoc signed** (no Apple Developer certificate).
+            If macOS says the app is damaged or can't be opened:
+
+            1. Right-click the app → **Open** → **Open**
+            2. Or: System Settings → Privacy & Security → allow the app
+
+            Forecast data is free via Open-Meteo for personal use.
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.args }}

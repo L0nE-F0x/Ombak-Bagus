@@ -643,6 +643,13 @@ main,
   color: var(--ocean-300);
 }
 
+.download-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
 .download-hint {
   margin: 1.25rem auto 0 !important;
   max-width: 32rem;
