@@ -1,0 +1,23 @@
+# Netlify site config — publish the marketing site only
+[build]
+  publish = "website"
+  # No build command needed (static HTML/CSS/JS)
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/downloads/*"
+  [headers.values]
+    # Force download of the Windows installer
+    Content-Disposition = "attachment"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
