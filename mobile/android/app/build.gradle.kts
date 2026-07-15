@@ -1,4 +1,4 @@
-﻿plugins {
+plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
@@ -11,13 +11,19 @@ android {
         applicationId = "com.ombakbagus.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 12
-        versionName = "0.1.2"
+        versionCode = 13
+        versionName = "0.1.3"
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+        }
+        // Sideload builds: sign with the automatic debug keystore so Android will install.
+        // Play Store later can swap in a real upload key without changing applicationId.
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

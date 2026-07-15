@@ -66,6 +66,13 @@ jobs:
           echo "path=$APK" >> "$GITHUB_OUTPUT"
           cp "$APK" Ombak-Bagus.apk
           ls -lh Ombak-Bagus.apk
+          # Fail if unsigned (modern Android rejects these as "package appears to be invalid")
+          unzip -l Ombak-Bagus.apk | tee /tmp/apk-list.txt
+          if ! grep -E 'META-INF/.*\.(RSA|DSA|EC)' /tmp/apk-list.txt; then
+            echo "ERROR: APK is not signed (no META-INF certificate)"
+            exit 1
+          fi
+          echo "APK signature entries present"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
