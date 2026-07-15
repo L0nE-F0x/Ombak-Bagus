@@ -46,7 +46,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Soft auto-refresh when data is stale and window gains focus
   useEffect(() => {
     const onFocus = () => {
       if (!loading && isStale(lastRefresh, 90)) {
@@ -62,25 +61,21 @@ function App() {
   }, [page]);
 
   return (
-    <div className="h-full flex bg-ocean-950 overflow-hidden">
-      <aside className="w-[68px] md:w-52 shrink-0 border-r border-ocean-800/80 flex flex-col bg-ocean-900/60">
-        <div className="p-3 md:px-4 md:py-4 border-b border-ocean-800/80">
+    <div className="app-shell h-full flex overflow-hidden">
+      <aside className="sidebar w-[68px] md:w-56 shrink-0 flex flex-col">
+        <div className="p-3 md:px-4 md:py-5 border-b border-ocean-800/70">
           <div className="flex items-center gap-2.5">
             <img
               src="/app-icon.png"
               alt=""
               width={36}
               height={36}
-              className="w-9 h-9 rounded-[10px] shadow-md shadow-black/30 shrink-0 ring-1 ring-ocean-500/20"
+              className="w-9 h-9 rounded-[11px] shadow-lg shadow-black/35 shrink-0 ring-1 ring-ocean-400/25"
               draggable={false}
             />
             <div className="hidden md:block min-w-0">
-              <div className="font-bold text-foam leading-tight tracking-tight">
-                Ombak Bagus
-              </div>
-              <div className="text-[10px] text-ocean-400 uppercase tracking-[0.14em] mt-0.5">
-                Bali surf desk
-              </div>
+              <div className="brand-title text-[1.05rem]">Ombak Bagus</div>
+              <div className="brand-sub">Bali surf desk</div>
             </div>
           </div>
         </div>
@@ -96,14 +91,10 @@ function App() {
                 type="button"
                 onClick={() => setPage(item.id)}
                 title={item.label}
-                className={`w-full flex items-center gap-3 px-2.5 md:px-3 py-2.5 rounded-xl text-sm transition-colors ${
-                  active
-                    ? "bg-ocean-700/70 text-foam border border-ocean-500/35 shadow-sm shadow-black/20"
-                    : "text-ocean-300 hover:bg-ocean-800/70 hover:text-foam border border-transparent"
-                }`}
+                className={`nav-item ${active ? "nav-item-active" : ""}`}
               >
                 <span
-                  className={`w-6 flex justify-center shrink-0 ${
+                  className={`nav-icon w-6 flex justify-center shrink-0 ${
                     active ? "text-ocean-300" : "text-ocean-400"
                   }`}
                 >
@@ -117,8 +108,8 @@ function App() {
           })}
         </nav>
 
-        <div className="p-3 hidden md:block text-[10px] text-ocean-600 border-t border-ocean-800/80 leading-relaxed">
-          Open-Meteo · free data
+        <div className="p-3 hidden md:block text-[10px] text-ocean-500 border-t border-ocean-800/70 leading-relaxed">
+          Open-Meteo | free data
           {isStale(lastRefresh, 90) && !loading && (
             <div className="text-sand-400/90 mt-1">Data may be stale</div>
           )}
@@ -126,7 +117,7 @@ function App() {
       </aside>
 
       <main ref={mainRef} className="flex-1 overflow-y-auto overflow-x-hidden">
-        <div className="max-w-6xl mx-auto p-4 md:p-6 lg:p-8 pb-10">
+        <div className="max-w-6xl mx-auto p-4 md:p-6 lg:p-8 pb-10 animate-fade-up">
           {error && (
             <div
               role="alert"
