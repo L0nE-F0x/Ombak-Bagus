@@ -35,6 +35,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install build-tools for apksigner
+        run: |
+          yes | sdkmanager "build-tools;34.0.0" || true
+          sdkmanager --list_installed | head -40
+
       - name: Ensure Android debug keystore exists
         run: |
           mkdir -p "$HOME/.android"
@@ -71,22 +76,37 @@ jobs:
           gradle wrapper --gradle-version 8.7
           chmod +x gradlew
 
-      - name: Assemble signed debug APK (sideload-friendly)
+      - name: Assemble debug APK
         working-directory: mobile/android
         run: ./gradlew assembleDebug --no-daemon
 
-      - name: Locate and verify signed APK
+      - name: Sign APK with apksigner (required for install on modern Android)
         run: |
-          APK=$(find mobile/android/app/build/outputs/apk -name "*.apk" | head -n 1)
-          echo "Found: $APK"
-          cp "$APK" Ombak-Bagus.apk
-          ls -lh Ombak-Bagus.apk
-          unzip -l Ombak-Bagus.apk | grep -E 'META-INF/.*\.(RSA|DSA|EC|SF)' || {
-            echo "ERROR: APK missing signature files"
-            unzip -l Ombak-Bagus.apk | head -50
-            exit 1
-          }
-          echo "APK is signed"
+          set -euo pipefail
+          RAW=$(find mobile/android/app/build/outputs/apk -name "*.apk" | head -n 1)
+          echo "Raw APK: $RAW"
+          ls -lh "$RAW"
+
+          # Locate apksigner / zipalign
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
+          echo "Build-tools: $BT"
+          APKSIGNER="$BT/apksigner"
+          ZIPALIGN="$BT/zipalign"
+
+          ALIGNED="Ombak-Bagus-aligned.apk"
+          SIGNED="Ombak-Bagus.apk"
+
+          "$ZIPALIGN" -f -p 4 "$RAW" "$ALIGNED"
+          "$APKSIGNER" sign \
+            --ks "$HOME/.android/debug.keystore" \
+            --ks-pass pass:android \
+            --ks-key-alias androiddebugkey \
+            --key-pass pass:android \
+            --out "$SIGNED" \
+            "$ALIGNED"
+          "$APKSIGNER" verify --verbose "$SIGNED"
+          ls -lh "$SIGNED"
+          echo "Signed APK ready"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
