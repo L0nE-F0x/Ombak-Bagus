@@ -272,6 +272,17 @@ export function Settings() {
           Built for checking Bali from a Windows desk - swell, wind, tides, and
           your logbook in one place.
         </p>
+        <p className="mt-3 text-[11px] text-ocean-500/90">
+          Built by{" "}
+          <a
+            href="https://ame-apexforge.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-ocean-400/90 hover:text-ocean-300 underline-offset-2 hover:underline transition-colors"
+          >
+            ApexForge
+          </a>
+        </p>
       </section>
     </div>
   );
