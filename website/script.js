@@ -39,4 +39,56 @@
 
     sections.forEach((s) => io.observe(s));
   }
+
+  initWaveVideo();
 })();
+
+/** Real barreling-surf video background — play/pause carefully */
+function initWaveVideo() {
+  const video = document.getElementById("wave-video");
+  if (!video) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const tryPlay = () => {
+    if (reduceMotion.matches || document.hidden) return;
+    const p = video.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(() => {
+        // Autoplay blocked — poster still shows
+      });
+    }
+  };
+
+  const sync = () => {
+    if (reduceMotion.matches || document.hidden) {
+      video.pause();
+    } else {
+      tryPlay();
+    }
+  };
+
+  video.muted = true;
+  video.defaultMuted = true;
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+
+  video.addEventListener("loadeddata", tryPlay, { once: true });
+  document.addEventListener("visibilitychange", sync);
+  if (reduceMotion.addEventListener) {
+    reduceMotion.addEventListener("change", sync);
+  } else if (reduceMotion.addListener) {
+    reduceMotion.addListener(sync);
+  }
+
+  // Nudge play after user interaction if needed
+  const unlock = () => {
+    tryPlay();
+    window.removeEventListener("pointerdown", unlock);
+    window.removeEventListener("keydown", unlock);
+  };
+  window.addEventListener("pointerdown", unlock, { passive: true });
+  window.addEventListener("keydown", unlock);
+
+  tryPlay();
+}
