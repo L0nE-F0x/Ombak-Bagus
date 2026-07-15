@@ -1,5 +1,5 @@
 :root {
-  /* Deep lagoon night — warmer than pure cyan SaaS */
+  /* Deep lagoon night - warmer than pure cyan SaaS */
   --ink: #0c1a1f;
   --ink-soft: #12262e;
   --ink-mid: #1a3640;
@@ -57,7 +57,7 @@ img {
   max-width: 100%;
 }
 
-/* Atmosphere — real barreling surf video */
+/* Atmosphere - real barreling surf video */
 .atmosphere {
   position: fixed;
   inset: 0;
@@ -898,7 +898,7 @@ summary::after {
 }
 
 details[open] summary::after {
-  content: "–";
+  content: "-";
 }
 
 details p {

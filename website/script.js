@@ -43,7 +43,7 @@
   initWaveVideo();
 })();
 
-/** Real barreling-surf video background — play/pause carefully */
+/** Real barreling-surf video background - play/pause carefully */
 function initWaveVideo() {
   const video = document.getElementById("wave-video");
   if (!video) return;
@@ -55,7 +55,7 @@ function initWaveVideo() {
     const p = video.play();
     if (p && typeof p.catch === "function") {
       p.catch(() => {
-        // Autoplay blocked — poster still shows
+        // Autoplay blocked - poster still shows
       });
     }
   };

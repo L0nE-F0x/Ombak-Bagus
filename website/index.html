@@ -1,485 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ombak Bagus â€” Bali Surf Desk for Windows &amp; Mac</title>
-    <meta
-      name="description"
-      content="Ombak Bagus is a free desktop app for Bali surf forecasts on Windows and Mac â€” multi-model swell, wind, tides, spot notes, and session logging in one place."
-    />
-    <meta name="theme-color" content="#0c1a1f" />
-    <meta property="og:title" content="Ombak Bagus â€” Bali Surf Desk" />
-    <meta
-      property="og:description"
-      content="Swell, wind, tides, and your logbook for Bali â€” one quiet desktop app. Free for personal use."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="assets/app-icon.png" />
-    <link rel="icon" type="image/png" href="assets/favicon.png" />
-    <link rel="apple-touch-icon" href="assets/app-icon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="atmosphere" aria-hidden="true">
-      <video
-        id="wave-video"
-        class="wave-video"
-        poster="assets/hero-wave-poster.jpg"
-        muted
-        loop
-        playsinline
-        autoplay
-        preload="auto"
-      >
-        <source src="assets/hero-wave.mp4" type="video/mp4" />
-      </video>
-      <div class="atmosphere-scrim"></div>
-      <div class="atmosphere-vignette"></div>
-      <div class="atmosphere-grain"></div>
-    </div>
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Ombak Bagus - Bali Surf Desk for Windows &amp; Mac</title>
+ <meta
+ name="description"
+ content="Ombak Bagus is a free desktop app for Bali surf forecasts on Windows and Mac - multi-model swell, wind, tides, spot notes, and session logging in one place."
+ />
+ <meta name="theme-color" content="#0c1a1f" />
+ <meta property="og:title" content="Ombak Bagus - Bali Surf Desk" />
+ <meta
+ property="og:description"
+ content="Swell, wind, tides, and your logbook for Bali - one quiet desktop app. Free for personal use."
+ />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="assets/app-icon.png" />
+ <link rel="icon" type="image/png" href="assets/favicon.png" />
+ <link rel="apple-touch-icon" href="assets/app-icon.png" />
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ <link
+ href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"
+ rel="stylesheet"
+ />
+ <link rel="stylesheet" href="styles.css" />
+ </head>
+ <body>
+ <div class="atmosphere" aria-hidden="true">
+ <video
+ id="wave-video"
+ class="wave-video"
+ poster="assets/hero-wave-poster.jpg"
+ muted
+ loop
+ playsinline
+ autoplay
+ preload="auto"
+ >
+ <source src="assets/hero-wave.mp4" type="video/mp4" />
+ </video>
+ <div class="atmosphere-scrim"></div>
+ <div class="atmosphere-vignette"></div>
+ <div class="atmosphere-grain"></div>
+ </div>
 
-    <header class="nav">
-      <a class="brand" href="#top">
-        <img src="assets/app-icon.png" alt="" width="36" height="36" />
-        <span>
-          <strong>Ombak Bagus</strong>
-          <small>Bali surf desk</small>
-        </span>
-      </a>
-      <nav class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#models">Models</a>
-        <a href="#how">How it works</a>
-        <a href="#download" class="nav-cta">Download</a>
-      </nav>
-    </header>
+ <header class="nav">
+ <a class="brand" href="#top">
+ <img src="assets/app-icon.png" alt="" width="36" height="36" />
+ <span>
+ <strong>Ombak Bagus</strong>
+ <small>Bali surf desk</small>
+ </span>
+ </a>
+ <nav class="nav-links">
+ <a href="#features">Features</a>
+ <a href="#models">Models</a>
+ <a href="#how">How it works</a>
+ <a href="#download" class="nav-cta">Download</a>
+ </nav>
+ </header>
 
-    <main id="top">
-      <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Windows &amp; Mac Â· Free Â· Built for Bali</p>
-          <h1>
-            Know before<br />
-            you paddle.
-          </h1>
-          <p class="lede">
-            <em>Ombak bagus</em> â€” good waves. A calm desktop app for Bali
-            conditions: multi-model swell, wind, tides, and a local logbook so
-            you can pick the right break without juggling a dozen tabs.
-          </p>
-          <div class="hero-actions">
-            <a
-              class="btn btn-primary"
-              href="downloads/Ombak-Bagus-Setup-0.1.0.exe"
-              download
-            >
-              Download for Windows
-              <span class="btn-meta">v0.1.0 Â· ~4 MB installer</span>
-            </a>
-            <a
-              class="btn btn-ghost"
-              href="https://github.com/L0nE-F0x/Ombak-Bagus/releases/latest"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download for Mac
-              <span class="btn-meta">GitHub Releases Â· Apple Silicon &amp; Intel</span>
-            </a>
-          </div>
-          <ul class="trust-row">
-            <li>Native desktop builds</li>
-            <li>Tray / menu bar ready</li>
-            <li>Open weather data</li>
-            <li>Notes stay on your machine</li>
-          </ul>
-        </div>
+ <main id="top">
+ <section class="hero">
+ <div class="hero-copy">
+ <p class="eyebrow">Windows &amp; Mac | Free | Built for Bali</p>
+ <h1>
+ Know before<br />
+ you paddle.
+ </h1>
+ <p class="lede">
+ <em>Ombak bagus</em> - good waves. A calm desktop app for Bali
+ conditions: multi-model swell, wind, tides, and a local logbook so
+ you can pick the right break without juggling a dozen tabs.
+ </p>
+ <div class="hero-actions">
+ <a
+ class="btn btn-primary"
+ href="downloads/Ombak-Bagus-Setup-0.1.0.exe"
+ download
+ >
+ Download for Windows
+ <span class="btn-meta">v0.1.0 | ~4 MB installer</span>
+ </a>
+ <a
+ class="btn btn-ghost"
+ href="https://github.com/L0nE-F0x/Ombak-Bagus/releases/latest"
+ target="_blank"
+ rel="noopener noreferrer"
+ >
+ Download for Mac
+ <span class="btn-meta">GitHub Releases | Apple Silicon &amp; Intel</span>
+ </a>
+ </div>
+ <ul class="trust-row">
+ <li>Native desktop builds</li>
+ <li>Tray / menu bar ready</li>
+ <li>Open weather data</li>
+ <li>Notes stay on your machine</li>
+ </ul>
+ </div>
 
-        <div class="hero-visual" aria-hidden="true">
-          <div class="hero-frame">
-            <div class="mock-window">
-              <div class="mock-chrome">
-                <span></span><span></span><span></span>
-                <p>Ombak Bagus</p>
-              </div>
-              <div class="mock-body">
-                <aside class="mock-side">
-                  <div class="mock-logo"></div>
-                  <div class="mock-nav active"></div>
-                  <div class="mock-nav"></div>
-                  <div class="mock-nav"></div>
-                  <div class="mock-nav"></div>
-                </aside>
-                <div class="mock-main">
-                  <p class="mock-kicker">Best right now</p>
-                  <h3>Uluwatu</h3>
-                  <p class="mock-region">Bukit Â· mid tide rising</p>
-                  <div class="mock-stats">
-                    <div>
-                      <small>Swell</small>
-                      <strong>1.8 m</strong>
-                      <span>13s Â· SW</span>
-                    </div>
-                    <div>
-                      <small>Wind</small>
-                      <strong>8 kn</strong>
-                      <span>offshore</span>
-                    </div>
-                    <div>
-                      <small>Score</small>
-                      <strong class="good">7.6</strong>
-                      <span>go window</span>
-                    </div>
-                  </div>
-                  <div class="mock-bars">
-                    <i style="--h: 42%"></i>
-                    <i style="--h: 58%"></i>
-                    <i style="--h: 70%"></i>
-                    <i style="--h: 64%"></i>
-                    <i style="--h: 80%"></i>
-                    <i style="--h: 55%"></i>
-                    <i style="--h: 48%"></i>
-                  </div>
-                  <p class="mock-foot">GFS Â· ECMWF Â· Best match</p>
-                </div>
-              </div>
-            </div>
-            <div class="hero-float hero-float-a">
-              <span class="float-label">Tide</span>
-              <strong>Mid rising</strong>
-            </div>
-            <div class="hero-float hero-float-b">
-              <span class="float-label">Wind</span>
-              <strong>Offshore ESE</strong>
-            </div>
-          </div>
-        </div>
-      </section>
+ <div class="hero-visual" aria-hidden="true">
+ <div class="hero-frame">
+ <div class="mock-window">
+ <div class="mock-chrome">
+ <span></span><span></span><span></span>
+ <p>Ombak Bagus</p>
+ </div>
+ <div class="mock-body">
+ <aside class="mock-side">
+ <div class="mock-logo"></div>
+ <div class="mock-nav active"></div>
+ <div class="mock-nav"></div>
+ <div class="mock-nav"></div>
+ <div class="mock-nav"></div>
+ </aside>
+ <div class="mock-main">
+ <p class="mock-kicker">Best right now</p>
+ <h3>Uluwatu</h3>
+ <p class="mock-region">Bukit | mid tide rising</p>
+ <div class="mock-stats">
+ <div>
+ <small>Swell</small>
+ <strong>1.8 m</strong>
+ <span>13s | SW</span>
+ </div>
+ <div>
+ <small>Wind</small>
+ <strong>8 kn</strong>
+ <span>offshore</span>
+ </div>
+ <div>
+ <small>Score</small>
+ <strong class="good">7.6</strong>
+ <span>go window</span>
+ </div>
+ </div>
+ <div class="mock-bars">
+ <i style="--h: 42%"></i>
+ <i style="--h: 58%"></i>
+ <i style="--h: 70%"></i>
+ <i style="--h: 64%"></i>
+ <i style="--h: 80%"></i>
+ <i style="--h: 55%"></i>
+ <i style="--h: 48%"></i>
+ </div>
+ <p class="mock-foot">GFS | ECMWF | Best match</p>
+ </div>
+ </div>
+ </div>
+ <div class="hero-float hero-float-a">
+ <span class="float-label">Tide</span>
+ <strong>Mid rising</strong>
+ </div>
+ <div class="hero-float hero-float-b">
+ <span class="float-label">Wind</span>
+ <strong>Offshore ESE</strong>
+ </div>
+ </div>
+ </div>
+ </section>
 
-      <div class="wave-band" aria-hidden="true">
-        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
-          <path
-            class="wave-path wave-path-back"
-            d="M0,40 C240,70 360,10 720,40 C1080,70 1200,15 1440,45 L1440,80 L0,80 Z"
-          />
-          <path
-            class="wave-path wave-path-front"
-            d="M0,48 C200,18 400,72 720,48 C1040,24 1240,68 1440,42 L1440,80 L0,80 Z"
-          />
-        </svg>
-      </div>
+ <div class="wave-band" aria-hidden="true">
+ <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+ <path
+ class="wave-path wave-path-back"
+ d="M0,40 C240,70 360,10 720,40 C1080,70 1200,15 1440,45 L1440,80 L0,80 Z"
+ />
+ <path
+ class="wave-path wave-path-front"
+ d="M0,48 C200,18 400,72 720,48 C1040,24 1240,68 1440,42 L1440,80 L0,80 Z"
+ />
+ </svg>
+ </div>
 
-      <section class="section" id="features">
-        <div class="section-head">
-          <p class="eyebrow">What you get</p>
-          <h2>Everything you check before you go</h2>
-          <p>
-            A personal Bali desk â€” not a social feed, not a paywalled portal.
-            Conditions, spots, and the notes you actually trust.
-          </p>
-        </div>
-        <div class="feature-grid">
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M3 14c3-4 5-4 8 0s5 4 8 0" />
-                <path d="M3 18c3-4 5-4 8 0s5 4 8 0" opacity="0.55" />
-                <path d="M12 5v3" />
-              </svg>
-            </div>
-            <h3>Live swell &amp; wind</h3>
-            <p>
-              Hourly height, period, direction, and wind relation â€” scored
-              against each breakâ€™s orientation and skill band.
-            </p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M4 18V8m5 10V6m5 12v-7m5 7V9" />
-              </svg>
-            </div>
-            <h3>Multi-model compare</h3>
-            <p>
-              Cross-check Best match, GFS Wave, ECMWF WAM, and MÃ©tÃ©o-France â€”
-              the multi-model habit, without the spreadsheet feel.
-            </p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M4 15c2.5-3 4.5-3 7 0s4.5 3 7 0" />
-                <path d="M4 10c2.5-3 4.5-3 7 0s4.5 3 7 0" opacity="0.5" />
-              </svg>
-            </div>
-            <h3>Primary + secondary swell</h3>
-            <p>
-              See combo seas when a second train is in the grid â€” useful on
-              Bukit and east-coast days when the mix matters.
-            </p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="8" />
-                <path d="M12 8v4l2.5 1.5" />
-              </svg>
-            </div>
-            <h3>Tide charts</h3>
-            <p>
-              Model sea level when available, plus an astronomical estimate so
-              you can plan mid-tide windows with a second opinion.
-            </p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z" />
-                <circle cx="12" cy="10" r="2.2" />
-              </svg>
-            </div>
-            <h3>16 curated Bali spots</h3>
-            <p>
-              Uluwatu, Padang, Bingin, Canggu peaks, Keramas, Medewi, and more â€”
-              each with swell windows and offshore angles.
-            </p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M7 4h10v16l-5-3-5 3V4z" />
-              </svg>
-            </div>
-            <h3>Notes &amp; session log</h3>
-            <p>
-              Local knowledge and post-session notes stay on your machine.
-              Favorites, units, and history persist between launches.
-            </p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="4" y="5" width="16" height="12" rx="2" />
-                <path d="M8 21h8M12 17v4" />
-              </svg>
-            </div>
-            <h3>System tray</h3>
-            <p>
-              Minimize or close to tray. Left-click to reopen, right-click to
-              quit â€” one click from the lineup check.
-            </p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="8" />
-                <path d="M8.5 12.5 11 15l4.5-5.5" />
-              </svg>
-            </div>
-            <h3>Free data stack</h3>
-            <p>
-              Powered by Open-Meteo marine &amp; weather APIs â€” no account, no
-              API key for personal use. Model names stay transparent in Settings.
-            </p>
-          </article>
-        </div>
-      </section>
+ <section class="section" id="features">
+ <div class="section-head">
+ <p class="eyebrow">What you get</p>
+ <h2>Everything you check before you go</h2>
+ <p>
+ A personal Bali desk - not a social feed, not a paywalled portal.
+ Conditions, spots, and the notes you actually trust.
+ </p>
+ </div>
+ <div class="feature-grid">
+ <article class="card">
+ <div class="icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+ <path d="M3 14c3-4 5-4 8 0s5 4 8 0" />
+ <path d="M3 18c3-4 5-4 8 0s5 4 8 0" opacity="0.55" />
+ <path d="M12 5v3" />
+ </svg>
+ </div>
+ <h3>Live swell &amp; wind</h3>
+ <p>
+ Hourly height, period, direction, and wind relation - scored
+ against each break's orientation and skill band.
+ </p>
+ </article>
+ <article class="card">
+ <div class="icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+ <path d="M4 18V8m5 10V6m5 12v-7m5 7V9" />
+ </svg>
+ </div>
+ <h3>Multi-model compare</h3>
+ <p>
+ Cross-check Best match, GFS Wave, ECMWF WAM, and Meteo-France - 
+ the multi-model habit, without the spreadsheet feel.
+ </p>
+ </article>
+ <article class="card">
+ <div class="icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+ <path d="M4 15c2.5-3 4.5-3 7 0s4.5 3 7 0" />
+ <path d="M4 10c2.5-3 4.5-3 7 0s4.5 3 7 0" opacity="0.5" />
+ </svg>
+ </div>
+ <h3>Primary + secondary swell</h3>
+ <p>
+ See combo seas when a second train is in the grid - useful on
+ Bukit and east-coast days when the mix matters.
+ </p>
+ </article>
+ <article class="card">
+ <div class="icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+ <circle cx="12" cy="12" r="8" />
+ <path d="M12 8v4l2.5 1.5" />
+ </svg>
+ </div>
+ <h3>Tide charts</h3>
+ <p>
+ Model sea level when available, plus an astronomical estimate so
+ you can plan mid-tide windows with a second opinion.
+ </p>
+ </article>
+ <article class="card">
+ <div class="icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+ <path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z" />
+ <circle cx="12" cy="10" r="2.2" />
+ </svg>
+ </div>
+ <h3>16 curated Bali spots</h3>
+ <p>
+ Uluwatu, Padang, Bingin, Canggu peaks, Keramas, Medewi, and more - 
+ each with swell windows and offshore angles.
+ </p>
+ </article>
+ <article class="card">
+ <div class="icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+ <path d="M7 4h10v16l-5-3-5 3V4z" />
+ </svg>
+ </div>
+ <h3>Notes &amp; session log</h3>
+ <p>
+ Local knowledge and post-session notes stay on your machine.
+ Favorites, units, and history persist between launches.
+ </p>
+ </article>
+ <article class="card">
+ <div class="icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+ <rect x="4" y="5" width="16" height="12" rx="2" />
+ <path d="M8 21h8M12 17v4" />
+ </svg>
+ </div>
+ <h3>System tray</h3>
+ <p>
+ Minimize or close to tray. Left-click to reopen, right-click to
+ quit - one click from the lineup check.
+ </p>
+ </article>
+ <article class="card">
+ <div class="icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+ <circle cx="12" cy="12" r="8" />
+ <path d="M8.5 12.5 11 15l4.5-5.5" />
+ </svg>
+ </div>
+ <h3>Free data stack</h3>
+ <p>
+ Powered by Open-Meteo marine &amp; weather APIs - no account, no
+ API key for personal use. Model names stay transparent in Settings.
+ </p>
+ </article>
+ </div>
+ </section>
 
-      <section class="section section-alt" id="models">
-        <div class="section-head">
-          <p class="eyebrow">Forecasts</p>
-          <h2>Not one mystery number</h2>
-          <p>
-            Models disagree. Ombak Bagus shows you <em>how</em> they disagree â€”
-            so you paddle with eyes open.
-          </p>
-        </div>
-        <div class="models-panel">
-          <div class="model-row">
-            <span class="dot" style="--c: #3d9b8f"></span>
-            <div>
-              <strong>Best match</strong>
-              <p>Open-Meteo auto-pick â€” primary scores &amp; charts</p>
-            </div>
-          </div>
-          <div class="model-row">
-            <span class="dot" style="--c: #d4a574"></span>
-            <div>
-              <strong>GFS Wave 0.25Â° / 0.16Â°</strong>
-              <p>NOAA global wave models â€” the classic multi-model staple</p>
-            </div>
-          </div>
-          <div class="model-row">
-            <span class="dot" style="--c: #8b9dc3"></span>
-            <div>
-              <strong>ECMWF WAM 0.25Â°</strong>
-              <p>European wave model â€” often solid on open-ocean swell</p>
-            </div>
-          </div>
-          <div class="model-row">
-            <span class="dot" style="--c: #6bbf8a"></span>
-            <div>
-              <strong>MÃ©tÃ©o-France Wave</strong>
-              <p>Independent global wave product for a third opinion</p>
-            </div>
-          </div>
-        </div>
-        <p class="fineprint">
-          Wind &amp; air come from Open-Meteo Forecast. Tides combine model sea
-          level (when available) with a local astronomical estimate. Planning
-          aid only â€” not for navigation.
-        </p>
-      </section>
+ <section class="section section-alt" id="models">
+ <div class="section-head">
+ <p class="eyebrow">Forecasts</p>
+ <h2>Not one mystery number</h2>
+ <p>
+ Models disagree. Ombak Bagus shows you <em>how</em> they disagree - 
+ so you paddle with eyes open.
+ </p>
+ </div>
+ <div class="models-panel">
+ <div class="model-row">
+ <span class="dot" style="--c: #3d9b8f"></span>
+ <div>
+ <strong>Best match</strong>
+ <p>Open-Meteo auto-pick - primary scores &amp; charts</p>
+ </div>
+ </div>
+ <div class="model-row">
+ <span class="dot" style="--c: #d4a574"></span>
+ <div>
+ <strong>GFS Wave 0.25 deg / 0.16 deg</strong>
+ <p>NOAA global wave models - the classic multi-model staple</p>
+ </div>
+ </div>
+ <div class="model-row">
+ <span class="dot" style="--c: #8b9dc3"></span>
+ <div>
+ <strong>ECMWF WAM 0.25 deg</strong>
+ <p>European wave model - often solid on open-ocean swell</p>
+ </div>
+ </div>
+ <div class="model-row">
+ <span class="dot" style="--c: #6bbf8a"></span>
+ <div>
+ <strong>Meteo-France Wave</strong>
+ <p>Independent global wave product for a third opinion</p>
+ </div>
+ </div>
+ </div>
+ <p class="fineprint">
+ Wind &amp; air come from Open-Meteo Forecast. Tides combine model sea
+ level (when available) with a local astronomical estimate. Planning
+ aid only - not for navigation.
+ </p>
+ </section>
 
-      <section class="section" id="how">
-        <div class="section-head">
-          <p class="eyebrow">Get started</p>
-          <h2>Three steps to the water</h2>
-        </div>
-        <ol class="steps">
-          <li>
-            <span class="step-num">1</span>
-            <div>
-              <h3>Download the installer</h3>
-              <p>
-                Grab the Windows setup (~4 MB). No account. No store login
-                needed.
-              </p>
-            </div>
-          </li>
-          <li>
-            <span class="step-num">2</span>
-            <div>
-              <h3>Install &amp; launch</h3>
-              <p>
-                Run the setup, open Ombak Bagus, and let it load forecasts for
-                Bali spots.
-              </p>
-            </div>
-          </li>
-          <li>
-            <span class="step-num">3</span>
-            <div>
-              <h3>Pick your session</h3>
-              <p>
-                Check the dashboard, open a spot, compare models, star
-                favorites, log the session after.
-              </p>
-            </div>
-          </li>
-        </ol>
-      </section>
+ <section class="section" id="how">
+ <div class="section-head">
+ <p class="eyebrow">Get started</p>
+ <h2>Three steps to the water</h2>
+ </div>
+ <ol class="steps">
+ <li>
+ <span class="step-num">1</span>
+ <div>
+ <h3>Download the installer</h3>
+ <p>
+ Grab the Windows setup (~4 MB). No account. No store login
+ needed.
+ </p>
+ </div>
+ </li>
+ <li>
+ <span class="step-num">2</span>
+ <div>
+ <h3>Install &amp; launch</h3>
+ <p>
+ Run the setup, open Ombak Bagus, and let it load forecasts for
+ Bali spots.
+ </p>
+ </div>
+ </li>
+ <li>
+ <span class="step-num">3</span>
+ <div>
+ <h3>Pick your session</h3>
+ <p>
+ Check the dashboard, open a spot, compare models, star
+ favorites, log the session after.
+ </p>
+ </div>
+ </li>
+ </ol>
+ </section>
 
-      <section class="section download" id="download">
-        <div class="download-card">
-          <div class="download-glow" aria-hidden="true"></div>
-          <img src="assets/app-icon.png" alt="Ombak Bagus icon" width="72" height="72" />
-          <h2>Take it to the desk</h2>
-          <p>Free personal use Â· v0.1.0 Â· Windows &amp; Mac</p>
-          <div class="download-btns">
-            <a
-              class="btn btn-primary btn-lg"
-              href="downloads/Ombak-Bagus-Setup-0.1.0.exe"
-              download
-              id="download-btn"
-            >
-              Windows installer
-              <span class="btn-meta">.exe Â· Win 10/11 x64</span>
-            </a>
-            <a
-              class="btn btn-ghost btn-lg"
-              href="https://github.com/L0nE-F0x/Ombak-Bagus/releases/latest"
-              target="_blank"
-              rel="noopener noreferrer"
-              id="download-mac-btn"
-            >
-              Mac downloads
-              <span class="btn-meta">.dmg Â· Apple Silicon + Intel</span>
-            </a>
-          </div>
-          <p class="download-hint">
-            <strong>Windows:</strong> if SmartScreen appears, choose
-            <em>More info â†’ Run anyway</em> (unsigned personal build).<br />
-            <strong>Mac:</strong> builds are produced by GitHub Actions (CI). If
-            macOS blocks the app, right-click â†’ <em>Open</em> â†’ <em>Open</em>.
-            Prefer the <code>aarch64</code> DMG on M1/M2/M3/M4 laptops.
-          </p>
-          <p class="download-hint">
-            All release files:
-            <a
-              href="https://github.com/L0nE-F0x/Ombak-Bagus/releases"
-              target="_blank"
-              rel="noopener noreferrer"
-              >github.com/L0nE-F0x/Ombak-Bagus/releases</a
-            >
-          </p>
-        </div>
-      </section>
+ <section class="section download" id="download">
+ <div class="download-card">
+ <div class="download-glow" aria-hidden="true"></div>
+ <img src="assets/app-icon.png" alt="Ombak Bagus icon" width="72" height="72" />
+ <h2>Take it to the desk</h2>
+ <p>Free personal use | v0.1.0 | Windows &amp; Mac</p>
+ <div class="download-btns">
+ <a
+ class="btn btn-primary btn-lg"
+ href="downloads/Ombak-Bagus-Setup-0.1.0.exe"
+ download
+ id="download-btn"
+ >
+ Windows installer
+ <span class="btn-meta">.exe | Win 10/11 x64</span>
+ </a>
+ <a
+ class="btn btn-ghost btn-lg"
+ href="https://github.com/L0nE-F0x/Ombak-Bagus/releases/latest"
+ target="_blank"
+ rel="noopener noreferrer"
+ id="download-mac-btn"
+ >
+ Mac downloads
+ <span class="btn-meta">.dmg | Apple Silicon + Intel</span>
+ </a>
+ </div>
+ <p class="download-hint">
+ <strong>Windows:</strong> if SmartScreen appears, choose
+ <em>More info -> Run anyway</em> (unsigned personal build).<br />
+ <strong>Mac:</strong> builds are produced by GitHub Actions (CI). If
+ macOS blocks the app, right-click -> <em>Open</em> -> <em>Open</em>.
+ Prefer the <code>aarch64</code> DMG on M1/M2/M3/M4 laptops.
+ </p>
+ <p class="download-hint">
+ All release files:
+ <a
+ href="https://github.com/L0nE-F0x/Ombak-Bagus/releases"
+ target="_blank"
+ rel="noopener noreferrer"
+ >github.com/L0nE-F0x/Ombak-Bagus/releases</a
+ >
+ </p>
+ </div>
+ </section>
 
-      <section class="section faq">
-        <div class="section-head">
-          <p class="eyebrow">FAQ</p>
-          <h2>Quick answers</h2>
-        </div>
-        <div class="faq-grid">
-          <details open>
-            <summary>Is it really free?</summary>
-            <p>
-              Yes for personal use. Forecast data comes from Open-Meteoâ€™s free
-              non-commercial APIs. The app itself is a personal project.
-            </p>
-          </details>
-          <details>
-            <summary>Does it only work for Bali?</summary>
-            <p>
-              The spot catalog and scoring are curated for Bali breaks. Thatâ€™s
-              the point â€” a desk tool for living here, not a global directory.
-            </p>
-          </details>
-          <details>
-            <summary>Is this as good as Windguru?</summary>
-            <p>
-              Windguru is excellent for multi-model tables. Ombak Bagus brings
-              multi-model swell comparison plus Bali-specific spots, scores,
-              tides, notes, and sessions into one native window. Use both if
-              you like.
-            </p>
-          </details>
-          <details>
-            <summary>Where does my data go?</summary>
-            <p>
-              Favorites, notes, and sessions stay on your PC. Forecasts are
-              fetched live from Open-Meteo and are not uploaded to us.
-            </p>
-          </details>
-        </div>
-      </section>
-    </main>
+ <section class="section faq">
+ <div class="section-head">
+ <p class="eyebrow">FAQ</p>
+ <h2>Quick answers</h2>
+ </div>
+ <div class="faq-grid">
+ <details open>
+ <summary>Is it really free?</summary>
+ <p>
+ Yes for personal use. Forecast data comes from Open-Meteo's free
+ non-commercial APIs. The app itself is a personal project.
+ </p>
+ </details>
+ <details>
+ <summary>Does it only work for Bali?</summary>
+ <p>
+ The spot catalog and scoring are curated for Bali breaks. That's
+ the point - a desk tool for living here, not a global directory.
+ </p>
+ </details>
+ <details>
+ <summary>Is this as good as Windguru?</summary>
+ <p>
+ Windguru is excellent for multi-model tables. Ombak Bagus brings
+ multi-model swell comparison plus Bali-specific spots, scores,
+ tides, notes, and sessions into one native window. Use both if
+ you like.
+ </p>
+ </details>
+ <details>
+ <summary>Where does my data go?</summary>
+ <p>
+ Favorites, notes, and sessions stay on your PC. Forecasts are
+ fetched live from Open-Meteo and are not uploaded to us.
+ </p>
+ </details>
+ </div>
+ </section>
+ </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="brand">
-          <img src="assets/app-icon.png" alt="" width="28" height="28" />
-          <span>Ombak Bagus</span>
-        </div>
-        <p>
-          Built for dawn patrol decisions Â· Forecasts are planning aids Â· Always
-          read the ocean yourself
-        </p>
-        <p class="footer-links">
-          <a href="https://github.com/L0nE-F0x/Ombak-Bagus">GitHub</a>
-          <a href="#download">Download</a>
-          <a href="https://open-meteo.com/">Open-Meteo</a>
-        </p>
-      </div>
-    </footer>
+ <footer class="footer">
+ <div class="footer-inner">
+ <div class="brand">
+ <img src="assets/app-icon.png" alt="" width="28" height="28" />
+ <span>Ombak Bagus</span>
+ </div>
+ <p>
+ Built for dawn patrol decisions | Forecasts are planning aids | Always
+ read the ocean yourself
+ </p>
+ <p class="footer-links">
+ <a href="https://github.com/L0nE-F0x/Ombak-Bagus">GitHub</a>
+ <a href="#download">Download</a>
+ <a href="https://open-meteo.com/">Open-Meteo</a>
+ </p>
+ </div>
+ </footer>
 
-    <script src="script.js"></script>
-  </body>
+ <script src="script.js"></script>
+ </body>
 </html>
