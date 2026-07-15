@@ -37,13 +37,17 @@ class MainActivity : AppCompatActivity() {
         settings.allowFileAccess = true
         settings.allowContentAccess = true
         settings.mediaPlaybackRequiresUserGesture = false
-        settings.cacheMode = WebSettings.LOAD_DEFAULT
+        settings.cacheMode = WebSettings.LOAD_NO_CACHE
         settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
         settings.useWideViewPort = true
         settings.loadWithOverviewMode = true
         settings.builtInZoomControls = false
         settings.displayZoomControls = false
         settings.setSupportMultipleWindows(false)
+        // Required for modern Vite ES module bundles on older WebViews
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            settings.safeBrowsingEnabled = true
+        }
 
         // Map https://appassets.androidplatform.net/assets/* -> file:///android_asset/*
         val assetLoader = WebViewAssetLoader.Builder()
@@ -64,8 +68,49 @@ class MainActivity : AppCompatActivity() {
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                // Stay inside the WebView for all navigations from the SPA
+                val url = request.url
+                // Keep SPA routes inside the WebView; open external http(s) in browser
+                if (url.host == "appassets.androidplatform.net") {
+                    return false
+                }
+                if (url.scheme == "http" || url.scheme == "https") {
+                    try {
+                        startActivity(
+                            android.content.Intent(
+                                android.content.Intent.ACTION_VIEW,
+                                url
+                            )
+                        )
+                        return true
+                    } catch (_: Exception) {
+                        return false
+                    }
+                }
                 return false
+            }
+
+            override fun onReceivedError(
+                view: WebView,
+                request: WebResourceRequest,
+                error: android.webkit.WebResourceError
+            ) {
+                super.onReceivedError(view, request, error)
+                if (request.isForMainFrame) {
+                    val msg = error.description?.toString() ?: "Unknown error"
+                    view.loadDataWithBaseURL(
+                        null,
+                        """
+                        <html><body style="background:#0c1a1f;color:#f3efe6;font-family:sans-serif;padding:24px;">
+                        <h2>Ombak Bagus could not load</h2>
+                        <p style="opacity:0.8">$msg</p>
+                        <p style="opacity:0.6;font-size:14px">Try reinstalling the APK from ombakbagus.netlify.app</p>
+                        </body></html>
+                        """.trimIndent(),
+                        "text/html",
+                        "UTF-8",
+                        null
+                    )
+                }
             }
         }
 

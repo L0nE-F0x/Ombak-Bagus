@@ -7,7 +7,6 @@ import {
   RELEASES_URL,
   type UpdateCheckResult,
 } from "../services/updates";
-import { openUrl } from "@tauri-apps/plugin-opener";
 
 export function Settings() {
   const units = useAppStore((s) => s.units);
@@ -62,10 +61,19 @@ export function Settings() {
 
   const openReleases = async () => {
     try {
-      await openUrl(RELEASES_URL);
+      // Dynamic import so Android WebView / PWA never load Tauri plugins.
+      if (
+        typeof window !== "undefined" &&
+        "__TAURI_INTERNALS__" in window
+      ) {
+        const { openUrl } = await import("@tauri-apps/plugin-opener");
+        await openUrl(RELEASES_URL);
+        return;
+      }
     } catch {
-      window.open(RELEASES_URL, "_blank", "noopener,noreferrer");
+      /* fall through to browser open */
     }
+    window.open(RELEASES_URL, "_blank", "noopener,noreferrer");
   };
 
   return (
