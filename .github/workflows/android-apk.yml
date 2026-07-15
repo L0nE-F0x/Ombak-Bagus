@@ -1,6 +1,6 @@
 # Build a sideloadable Android APK (WebView shell + bundled PWA).
 # Trigger: Actions -> "Android APK" -> Run workflow
-# Output: release asset Ombak-Bagus.apk (and workflow artifact)
+# Output: artifact Ombak-Bagus.apk (signed for sideload)
 
 name: Android APK
 
@@ -35,6 +35,22 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Ensure Android debug keystore exists
+        run: |
+          mkdir -p "$HOME/.android"
+          if [ ! -f "$HOME/.android/debug.keystore" ]; then
+            keytool -genkeypair -v \
+              -keystore "$HOME/.android/debug.keystore" \
+              -storepass android \
+              -alias androiddebugkey \
+              -keypass android \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US"
+          fi
+          ls -la "$HOME/.android/debug.keystore"
+
       - name: Install frontend deps
         run: npm ci
 
@@ -55,24 +71,22 @@ jobs:
           gradle wrapper --gradle-version 8.7
           chmod +x gradlew
 
-      - name: Assemble release APK
+      - name: Assemble signed debug APK (sideload-friendly)
         working-directory: mobile/android
-        run: ./gradlew assembleRelease --no-daemon
+        run: ./gradlew assembleDebug --no-daemon
 
-      - name: Locate APK
-        id: apk
+      - name: Locate and verify signed APK
         run: |
           APK=$(find mobile/android/app/build/outputs/apk -name "*.apk" | head -n 1)
-          echo "path=$APK" >> "$GITHUB_OUTPUT"
+          echo "Found: $APK"
           cp "$APK" Ombak-Bagus.apk
           ls -lh Ombak-Bagus.apk
-          # Fail if unsigned (modern Android rejects these as "package appears to be invalid")
-          unzip -l Ombak-Bagus.apk | tee /tmp/apk-list.txt
-          if ! grep -E 'META-INF/.*\.(RSA|DSA|EC)' /tmp/apk-list.txt; then
-            echo "ERROR: APK is not signed (no META-INF certificate)"
+          unzip -l Ombak-Bagus.apk | grep -E 'META-INF/.*\.(RSA|DSA|EC|SF)' || {
+            echo "ERROR: APK missing signature files"
+            unzip -l Ombak-Bagus.apk | head -50
             exit 1
-          fi
-          echo "APK signature entries present"
+          }
+          echo "APK is signed"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
