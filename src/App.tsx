@@ -114,14 +114,14 @@ function App() {
         <video
           ref={waveRef}
           className="wave-bg-video"
-          poster="/hero-wave-poster.jpg"
+          poster={`${import.meta.env.BASE_URL}hero-wave-poster.jpg`}
           muted
           loop
           playsInline
           autoPlay
           preload="auto"
         >
-          <source src="/hero-wave.mp4" type="video/mp4" />
+          <source src={`${import.meta.env.BASE_URL}hero-wave.mp4`} type="video/mp4" />
         </video>
         <div className="wave-bg-scrim" />
         <div className="wave-bg-vignette" />
@@ -132,7 +132,7 @@ function App() {
         <div className="p-3 md:px-4 md:py-5 border-b border-ocean-800/70">
           <div className="flex items-center gap-2.5">
             <img
-              src="/app-icon.png"
+              src={`${import.meta.env.BASE_URL}app-icon.png`}
               alt=""
               width={36}
               height={36}

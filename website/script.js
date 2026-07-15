@@ -3,8 +3,69 @@
   const btn = document.getElementById("download-btn");
   if (btn) {
     btn.addEventListener("click", () => {
-      // Optional analytics hook later
-      console.info("Ombak Bagus download started");
+      console.info("Ombak Bagus Windows download started");
+    });
+  }
+
+  // Prefer local APK if hosted under /downloads (falls back to GitHub Releases)
+  const localApk = "downloads/Ombak-Bagus.apk";
+  const androidBtns = [
+    document.getElementById("download-android-btn"),
+    document.getElementById("download-android-hero"),
+  ].filter(Boolean);
+
+  if (androidBtns.length) {
+    fetch(localApk, { method: "HEAD" })
+      .then((res) => {
+        if (!res.ok) return;
+        androidBtns.forEach((a) => {
+          a.setAttribute("href", localApk);
+          a.setAttribute("download", "Ombak-Bagus.apk");
+        });
+      })
+      .catch(() => {
+        /* keep GitHub Releases URL */
+      });
+  }
+
+  // iOS PWA install helper
+  const modal = document.getElementById("ios-install-modal");
+  const iosBtns = [
+    document.getElementById("download-ios-btn"),
+    document.getElementById("download-ios-hero"),
+  ].filter(Boolean);
+
+  function isIos() {
+    const ua = navigator.userAgent || "";
+    const iOS = /iPad|iPhone|iPod/.test(ua);
+    const iPadOs = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+    return iOS || iPadOs;
+  }
+
+  function openIosModal(e) {
+    if (!modal) return;
+    // On iOS, intercept and show install steps before/while opening the app
+    if (isIos()) {
+      e.preventDefault();
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+    // Desktop browsers: let the link open /app/ normally
+  }
+
+  function closeIosModal() {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  iosBtns.forEach((a) => a.addEventListener("click", openIosModal));
+  if (modal) {
+    modal.querySelectorAll("[data-close-ios]").forEach((el) => {
+      el.addEventListener("click", closeIosModal);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.hidden) closeIosModal();
     });
   }
 
@@ -39,56 +100,4 @@
 
     sections.forEach((s) => io.observe(s));
   }
-
-  initWaveVideo();
 })();
-
-/** Real barreling-surf video background - play/pause carefully */
-function initWaveVideo() {
-  const video = document.getElementById("wave-video");
-  if (!video) return;
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  const tryPlay = () => {
-    if (reduceMotion.matches || document.hidden) return;
-    const p = video.play();
-    if (p && typeof p.catch === "function") {
-      p.catch(() => {
-        // Autoplay blocked - poster still shows
-      });
-    }
-  };
-
-  const sync = () => {
-    if (reduceMotion.matches || document.hidden) {
-      video.pause();
-    } else {
-      tryPlay();
-    }
-  };
-
-  video.muted = true;
-  video.defaultMuted = true;
-  video.setAttribute("playsinline", "");
-  video.setAttribute("webkit-playsinline", "");
-
-  video.addEventListener("loadeddata", tryPlay, { once: true });
-  document.addEventListener("visibilitychange", sync);
-  if (reduceMotion.addEventListener) {
-    reduceMotion.addEventListener("change", sync);
-  } else if (reduceMotion.addListener) {
-    reduceMotion.addListener(sync);
-  }
-
-  // Nudge play after user interaction if needed
-  const unlock = () => {
-    tryPlay();
-    window.removeEventListener("pointerdown", unlock);
-    window.removeEventListener("keydown", unlock);
-  };
-  window.addEventListener("pointerdown", unlock, { passive: true });
-  window.addEventListener("keydown", unlock);
-
-  tryPlay();
-}

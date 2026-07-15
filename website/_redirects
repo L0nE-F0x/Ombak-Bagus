@@ -1,1 +1,2 @@
-# Static site — no SPA rewrite (would break /downloads/*.exe)
+# Static site â€” no SPA rewrite (would break /downloads/*.exe)
+/app/*  /app/index.html  200

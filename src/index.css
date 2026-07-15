@@ -116,10 +116,7 @@ body {
     display: none;
   }
   .wave-bg {
-    background:
-      var(--color-ocean-950)
-      url("/hero-wave-poster.jpg")
-      center / cover no-repeat;
+    background: var(--color-ocean-950);
   }
 }
 

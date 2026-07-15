@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:web": "node scripts/build-web.mjs",
+    "build:android-web": "node scripts/build-android-web.mjs",
+    "package:site": "node scripts/package-site.mjs",
     "preview": "vite preview",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
@@ -32,6 +35,7 @@
     "@vitejs/plugin-react": "^4.6.0",
     "tailwindcss": "^4.3.2",
     "typescript": "~5.8.3",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vite-plugin-pwa": "^1.3.0"
   }
 }

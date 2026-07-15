@@ -117,3 +117,27 @@ Ombak Bagus uses the Tauri updater against GitHub Releases (`latest.json`).
 5. In the app: **Settings -> Check for updates**.
 
 This is the same path you will use for monetized / paid builds later (channel endpoints can diverge when you are ready).
+
+## Mobile (optional - desktop stays first-class)
+
+| Platform | How |
+|----------|-----|
+| **Windows / Mac** | Native installers (unchanged) |
+| **Android** | Sideload **APK** from GitHub Releases (`Ombak-Bagus.apk`) or `website/downloads/` when present |
+| **iOS** | **PWA** at `/app/` - Safari → Share → Add to Home Screen |
+
+### Build Android APK (CI)
+
+GitHub Actions workflow: **Android APK** (`.github/workflows/android-apk.yml`).
+
+1. Actions → Android APK → Run workflow  
+2. Download the artifact, or tag a release (`v*`) to attach `Ombak-Bagus.apk`  
+3. Optional: copy the APK to `website/downloads/Ombak-Bagus.apk` so the marketing site serves it directly
+
+### Package marketing site + PWA locally
+
+```bash
+npm run package:site
+```
+
+Output: `dist-site/` (Netlify publish directory).
