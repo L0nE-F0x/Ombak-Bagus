@@ -24,7 +24,7 @@ export type UpdateCheckResult =
 const REPO = "L0nE-F0x/Ombak-Bagus";
 
 /** Bundled shell version for Android WebView / PWA when Tauri is not present. */
-const FALLBACK_VERSION = "0.1.6";
+const FALLBACK_VERSION = "0.1.7";
 
 export const RELEASES_URL = `https://github.com/${REPO}/releases/latest`;
 export const APK_DOWNLOAD_URL = `https://github.com/${REPO}/releases/latest/download/Ombak-Bagus.apk`;
