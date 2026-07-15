@@ -640,7 +640,8 @@ main,
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* 3 columns keeps 6 cards in a balanced 2-row layout */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.95rem;
 }
 
@@ -973,31 +974,50 @@ details p {
 @media (max-width: 960px) {
   .hero {
     grid-template-columns: 1fr;
-    padding-top: 1.5rem;
-    gap: 2rem;
+    padding: 1.35rem 1.25rem 2.25rem;
+    gap: 0;
   }
 
+  /* Desktop mock looks jarring on phones — hide and lead with copy + CTAs */
   .hero-visual {
-    order: -1;
-    max-width: 440px;
-    margin: 0 auto;
-    width: 100%;
+    display: none;
   }
 
-  .hero-float-a {
-    left: 0;
+  .hero-copy {
+    max-width: 36rem;
   }
 
-  .hero-float-b {
-    right: 0;
+  .hero-actions {
+    margin-top: 1.5rem;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .trust-row {
+    margin-top: 1.35rem;
+    gap: 0.45rem 0.9rem;
   }
 
   .feature-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section {
+    padding: 2.75rem 1.25rem;
+  }
+
+  .section-head {
+    margin-bottom: 1.6rem;
   }
 }
 
 @media (max-width: 640px) {
+  .nav {
+    padding: 0.95rem 1.1rem;
+  }
+
   .nav-links a:not(.nav-cta) {
     display: none;
   }
@@ -1006,16 +1026,38 @@ details p {
     grid-template-columns: 1fr;
   }
 
-  .mock-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-float {
-    display: none;
+  .hero {
+    padding: 1.1rem 1.1rem 1.85rem;
   }
 
   .hero h1 {
-    font-size: clamp(2.3rem, 10vw, 3rem);
+    font-size: clamp(2.35rem, 11vw, 3rem);
+  }
+
+  .lede {
+    font-size: 1.02rem;
+    margin-top: 1.1rem;
+  }
+
+  .btn {
+    padding: 0.85rem 1.15rem;
+  }
+
+  .card {
+    padding: 1.15rem 1.1rem;
+  }
+
+  .download-card {
+    padding: 2rem 1.15rem;
+    border-radius: 1.25rem;
+  }
+
+  .download-card h2 {
+    font-size: 1.65rem;
+  }
+
+  .download-hint {
+    text-align: left;
   }
 }
 

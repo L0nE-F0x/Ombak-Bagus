@@ -70,7 +70,7 @@
   }
 
   // Smooth active nav highlight
-  const sections = ["features", "models", "how", "download"]
+  const sections = ["features", "how", "download"]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 
