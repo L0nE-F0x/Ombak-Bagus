@@ -133,8 +133,8 @@ function App() {
         <div className="wave-bg-grain" />
       </div>
 
-      {/* Mobile top bar */}
-      <header className="mobile-topbar md:hidden relative z-20">
+      {/* Mobile top bar — visibility controlled in CSS (max-width 767px) */}
+      <header className="mobile-topbar relative z-20 shrink-0">
         <img
           src={`${import.meta.env.BASE_URL}app-icon.png`}
           alt=""
@@ -156,8 +156,8 @@ function App() {
         )}
       </header>
 
-      {/* Desktop sidebar */}
-      <aside className="sidebar hidden md:flex w-56 shrink-0 flex-col relative z-10">
+      {/* Desktop sidebar — visibility controlled in CSS (min-width 768px) */}
+      <aside className="sidebar w-56 shrink-0 flex-col relative z-10">
         <div className="px-4 py-5 border-b border-ocean-800/70">
           <div className="flex items-center gap-2.5">
             <img
@@ -240,8 +240,8 @@ function App() {
         </div>
       </main>
 
-      {/* Mobile bottom tab bar */}
-      <nav className="mobile-tabbar md:hidden relative z-20" aria-label="Main">
+      {/* Mobile bottom tab bar — visibility controlled in CSS (max-width 767px) */}
+      <nav className="mobile-tabbar relative z-20" aria-label="Main">
         {NAV.map((item) => {
           const active =
             page === item.id || (item.id === "spots" && page === "spot");
