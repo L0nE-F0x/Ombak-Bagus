@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode, type RefObject } from "react";
 import { useAppStore } from "./store/useAppStore";
 import { Dashboard } from "./pages/Dashboard";
 import { Spots } from "./pages/Spots";
@@ -28,6 +28,51 @@ const NAV: {
   { id: "settings", label: "Settings", icon: IconSettings },
 ];
 
+function useWaveBackground(videoRef: RefObject<HTMLVideoElement | null>) {
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const tryPlay = () => {
+      if (reduceMotion.matches || document.hidden) {
+        video.pause();
+        return;
+      }
+      video.muted = true;
+      const p = video.play();
+      if (p && typeof p.catch === "function") {
+        p.catch(() => {
+          /* autoplay blocked - poster still shows */
+        });
+      }
+    };
+
+    const onVis = () => tryPlay();
+    const onMotion = () => tryPlay();
+
+    video.addEventListener("loadeddata", tryPlay, { once: true });
+    document.addEventListener("visibilitychange", onVis);
+    if (reduceMotion.addEventListener) {
+      reduceMotion.addEventListener("change", onMotion);
+    } else {
+      reduceMotion.addListener(onMotion);
+    }
+
+    tryPlay();
+
+    return () => {
+      document.removeEventListener("visibilitychange", onVis);
+      if (reduceMotion.removeEventListener) {
+        reduceMotion.removeEventListener("change", onMotion);
+      } else {
+        reduceMotion.removeListener(onMotion);
+      }
+    };
+  }, [videoRef]);
+}
+
 function App() {
   const page = useAppStore((s) => s.page);
   const setPage = useAppStore((s) => s.setPage);
@@ -38,6 +83,9 @@ function App() {
   const error = useAppStore((s) => s.error);
   const clearError = useAppStore((s) => s.clearError);
   const mainRef = useRef<HTMLElement>(null);
+  const waveRef = useRef<HTMLVideoElement>(null);
+
+  useWaveBackground(waveRef);
 
   useEffect(() => {
     if (!Object.keys(forecasts).length && !loading) {
@@ -62,7 +110,25 @@ function App() {
 
   return (
     <div className="app-shell h-full flex overflow-hidden">
-      <aside className="sidebar w-[68px] md:w-56 shrink-0 flex flex-col">
+      <div className="wave-bg" aria-hidden="true">
+        <video
+          ref={waveRef}
+          className="wave-bg-video"
+          poster="/hero-wave-poster.jpg"
+          muted
+          loop
+          playsInline
+          autoPlay
+          preload="auto"
+        >
+          <source src="/hero-wave.mp4" type="video/mp4" />
+        </video>
+        <div className="wave-bg-scrim" />
+        <div className="wave-bg-vignette" />
+        <div className="wave-bg-grain" />
+      </div>
+
+      <aside className="sidebar w-[68px] md:w-56 shrink-0 flex flex-col relative z-10">
         <div className="p-3 md:px-4 md:py-5 border-b border-ocean-800/70">
           <div className="flex items-center gap-2.5">
             <img
@@ -116,7 +182,10 @@ function App() {
         </div>
       </aside>
 
-      <main ref={mainRef} className="flex-1 overflow-y-auto overflow-x-hidden">
+      <main
+        ref={mainRef}
+        className="flex-1 overflow-y-auto overflow-x-hidden relative z-10"
+      >
         <div className="max-w-6xl mx-auto p-4 md:p-6 lg:p-8 pb-10 animate-fade-up">
           {error && (
             <div
