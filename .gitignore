@@ -28,3 +28,7 @@ assets/ombak-bagus.ico
 *.njsproj
 *.sln
 *.sw?
+
+# Tauri updater private keys
+*.key
+.env

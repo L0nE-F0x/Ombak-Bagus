@@ -103,3 +103,17 @@ src-tauri/           Tauri shell (Windows window + installer)
 ## Disclaimer
 
 Forecasts and scores are planning aids. Ocean conditions change quickly; always assess the lineup yourself. Tide heights are **estimated**, not official tide tables.
+
+## In-app updates
+
+Ombak Bagus uses the Tauri updater against GitHub Releases (`latest.json`).
+
+1. Signing keys live on the maintainer machine (`~/.tauri/ombak-bagus.key`) - **never commit the private key**.
+2. Public key is in `src-tauri/tauri.conf.json` under `plugins.updater.pubkey`.
+3. Add GitHub Actions secrets for release builds:
+   - `TAURI_SIGNING_PRIVATE_KEY` - full private key file contents
+   - `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` - only if the key has a password
+4. Ship a release (tag or workflow_dispatch). Installers and updater artifacts are attached automatically.
+5. In the app: **Settings -> Check for updates**.
+
+This is the same path you will use for monetized / paid builds later (channel endpoints can diverge when you are ready).

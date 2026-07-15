@@ -22,6 +22,8 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_store::Builder::new().build())
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init())
         .setup(|app| {
             let show_i = MenuItem::with_id(app, "show", "Open Ombak Bagus", true, None::<&str>)?;
             let sep = PredefinedMenuItem::separator(app)?;
@@ -30,13 +32,13 @@ pub fn run() {
 
             let icon = app
                 .default_window_icon()
-                .expect("app icon missing — run `npx tauri icon`")
+                .expect("app icon missing - run `npx tauri icon`")
                 .clone();
 
             let _tray = TrayIconBuilder::with_id("ombak-tray")
                 .icon(icon)
                 .menu(&menu)
-                .tooltip("Ombak Bagus — Bali Surf Desk")
+                .tooltip("Ombak Bagus - Bali Surf Desk")
                 .show_menu_on_left_click(false)
                 .on_menu_event(|app, event| match event.id.as_ref() {
                     "show" => show_main_window(app),
@@ -55,7 +57,6 @@ pub fn run() {
                         let app = tray.app_handle();
                         if let Some(window) = app.get_webview_window("main") {
                             if window.is_visible().unwrap_or(false) {
-                                // If already visible, still focus it
                                 let _ = window.unminimize();
                                 let _ = window.set_focus();
                             } else {
@@ -69,12 +70,12 @@ pub fn run() {
             Ok(())
         })
         .on_window_event(|window, event| match event {
-            // X button → hide to tray instead of quitting
+            // X button -> hide to tray instead of quitting
             WindowEvent::CloseRequested { api, .. } => {
                 hide_to_tray(window);
                 api.prevent_close();
             }
-            // Minimize button → hide to tray
+            // Minimize button -> hide to tray
             WindowEvent::Resized(_) => {
                 if window.is_minimized().unwrap_or(false) {
                     let _ = window.unminimize();
