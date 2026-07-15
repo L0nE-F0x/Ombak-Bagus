@@ -37,8 +37,8 @@ export function Dashboard() {
  const stale = isStale(lastRefresh, 90);
 
  return (
- <div className="space-y-7">
- <header className="flex flex-wrap items-end justify-between gap-4">
+ <div className="space-y-5 md:space-y-7">
+ <header className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:justify-between gap-3 sm:gap-4">
  <div className="min-w-0">
  <p className="page-kicker">Bali | Asia/Makassar</p>
           <h1 className="page-title">Where should you paddle out?</h1>
@@ -52,7 +52,7 @@ export function Dashboard() {
  type="button"
  onClick={() => refreshAll()}
  disabled={loading}
- className="btn btn-primary"
+ className="btn btn-primary w-full sm:w-auto shrink-0"
  >
  {loading
  ? loadProgress
@@ -88,20 +88,20 @@ export function Dashboard() {
  )}
 
  {top && (
- <section className="hero-panel p-6 md:p-7">
+ <section className="hero-panel p-4 sm:p-6 md:p-7">
           <p className="page-kicker">Best right now</p>
-          <div className="flex flex-wrap items-center gap-3 mt-2">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mt-2">
             <button
               type="button"
               onClick={() => selectSpot(top.spot.id)}
-              className="font-display text-2xl md:text-3xl font-semibold text-foam hover:text-ocean-300 transition-colors text-left tracking-tight"
+              className="font-display text-xl sm:text-2xl md:text-3xl font-semibold text-foam hover:text-ocean-300 transition-colors text-left tracking-tight min-w-0 break-words"
             >
               {top.spot.name}
             </button>
             <RatingBadge rating={top.rating} size="lg" />
           </div>
           {top.now && (
-            <div className="mt-5 flex flex-wrap gap-x-8 gap-y-4 text-sm">
+            <div className="mt-4 sm:mt-5 grid grid-cols-2 sm:flex sm:flex-wrap gap-3 sm:gap-x-8 sm:gap-y-4 text-sm">
  <Stat
  label="Wave"
  value={formatWave(top.now.waveHeight, units.wave)}

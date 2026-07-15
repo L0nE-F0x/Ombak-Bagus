@@ -83,9 +83,9 @@ export function SpotDetail() {
         {"\u2190"} All spots
       </button>
 
- <header className="flex flex-wrap items-start justify-between gap-4">
+ <header className="flex flex-col sm:flex-row sm:flex-wrap sm:items-start sm:justify-between gap-3 sm:gap-4">
  <div className="min-w-0">
- <div className="flex flex-wrap items-center gap-3">
+ <div className="flex flex-wrap items-center gap-2 sm:gap-3">
  <h1 className="page-title">
  {spot.name}
  </h1>
@@ -98,9 +98,9 @@ export function SpotDetail() {
  >
  {isFav ? "\u2605" : "\u2606"}
  </button>
- {now && <RatingBadge rating={now.rating} size="lg" />}
+ {now && <RatingBadge rating={now.rating} size="md" />}
  </div>
- <p className="text-ocean-400 mt-1.5 text-sm">
+ <p className="text-ocean-400 mt-1.5 text-xs sm:text-sm leading-relaxed">
  {spot.region}
  <span className="text-ocean-700 mx-1.5">|</span>
  <span className="capitalize">{spot.skill}</span>
@@ -112,7 +112,7 @@ export function SpotDetail() {
  <p className="text-sm text-ocean-300 mt-2 max-w-2xl leading-relaxed">
  {spot.description}
  </p>
- <p className="text-xs text-ocean-500 mt-1.5">
+ <p className="text-xs text-ocean-500 mt-1.5 leading-relaxed">
  Best months: {spot.bestMonths}
  <span className="text-ocean-700 mx-1.5">|</span>
  Tide preference: {spot.tidePreference}
@@ -128,14 +128,14 @@ export function SpotDetail() {
  type="button"
  onClick={() => refreshSpot(spot.id)}
  disabled={refreshing}
- className="btn btn-ghost"
+ className="btn btn-ghost w-full sm:w-auto shrink-0"
  >
  {refreshing ? "Refreshing..." : "Refresh spot"}
  </button>
  </header>
 
  {now ? (
- <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+ <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5 sm:gap-3">
  <Metric
  label="Wave height"
  value={formatWave(now.waveHeight, units.wave)}

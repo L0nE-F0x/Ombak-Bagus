@@ -35,6 +35,7 @@ html,
 body,
 #root {
   height: 100%;
+  height: 100dvh;
   margin: 0;
 }
 
@@ -46,6 +47,9 @@ body {
   text-rendering: optimizeLegibility;
   overflow: hidden;
   user-select: none;
+  /* Avoid iOS bounce revealing white behind the app */
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Shell + live barreling-wave background */
@@ -53,6 +57,177 @@ body {
   position: relative;
   isolation: isolate;
   background: var(--color-ocean-950);
+  /* Notch / home-indicator safe areas (PWA + Android WebView) */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+.page-frame {
+  padding: 0.85rem 0.9rem 1.25rem;
+  width: 100%;
+  max-width: 72rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .page-frame {
+    padding: 1.5rem 1.5rem 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-frame {
+    padding: 2rem 2rem 2.5rem;
+  }
+}
+
+/* Leave room for bottom tab bar on phones */
+.main-scroll {
+  /* tab bar ~56px + safe-area + a little air */
+  padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .main-scroll {
+    padding-bottom: 0;
+  }
+}
+
+/* Mobile chrome */
+.mobile-topbar {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.85rem;
+  background: color-mix(in srgb, var(--color-ocean-900) 90%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ocean-700) 70%, transparent);
+}
+
+.mobile-tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  padding: 0.3rem 0.25rem calc(0.3rem + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--color-ocean-900) 94%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-top: 1px solid color-mix(in srgb, var(--color-ocean-700) 75%, transparent);
+  box-shadow: 0 -10px 28px color-mix(in srgb, black 28%, transparent);
+}
+
+.mobile-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  min-width: 0;
+  min-height: 2.85rem;
+  padding: 0.3rem 0.15rem;
+  border: none;
+  border-radius: 0.7rem;
+  background: transparent;
+  color: var(--color-ocean-400);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.mobile-tab span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-tab-active {
+  color: var(--color-ocean-300);
+  background: color-mix(in srgb, var(--color-ocean-600) 28%, transparent);
+}
+
+/* Filter toolbar used on Spots (and reusable) */
+.filter-bar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+}
+
+@media (min-width: 480px) {
+  .filter-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.filter-bar .input,
+.filter-bar .select,
+.filter-bar .btn {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .filter-bar .input {
+    width: auto;
+    min-width: 11rem;
+    max-width: 16rem;
+    flex: 1 1 12rem;
+  }
+  .filter-bar .select {
+    width: auto;
+    min-width: 8.5rem;
+    flex: 0 1 auto;
+  }
+  .filter-bar .btn {
+    width: auto;
+  }
+}
+
+/* Spot card metrics stay readable on narrow screens */
+.spot-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem 0.55rem;
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.spot-metrics .metric-value {
+  font-weight: 600;
+  color: var(--color-ocean-200);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spot-metrics .metric-sub {
+  font-size: 0.7rem;
+  color: var(--color-ocean-400);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: capitalize;
 }
 
 .wave-bg {
@@ -485,18 +660,26 @@ input[type="range"] {
 
 .page-title {
   font-family: var(--font-display);
-  font-size: clamp(1.55rem, 2.4vw, 1.95rem);
+  font-size: clamp(1.35rem, 4.5vw, 1.95rem);
   font-weight: 600;
   letter-spacing: -0.025em;
   color: var(--color-foam);
-  line-height: 1.15;
-  margin-top: 0.3rem;
+  line-height: 1.18;
+  margin-top: 0.25rem;
+  overflow-wrap: anywhere;
 }
 
 .page-sub {
-  margin-top: 0.45rem;
-  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
   color: var(--color-ocean-300);
+}
+
+@media (min-width: 768px) {
+  .page-sub {
+    font-size: 0.9rem;
+  }
 }
 
 .section-title {

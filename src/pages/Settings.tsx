@@ -77,7 +77,7 @@ export function Settings() {
   };
 
   return (
-    <div className="space-y-6 max-w-xl">
+    <div className="space-y-5 md:space-y-6 max-w-xl">
       <header>
         <h1 className="page-title">Settings</h1>
         <p className="page-sub">Ombak Bagus | personal Bali surf desk</p>
@@ -96,10 +96,10 @@ export function Settings() {
           the app. Ready for paid release channels later - same pipeline, signed
           packages.
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-2">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary w-full sm:w-auto"
             onClick={() => void onCheckUpdates()}
             disabled={
               updateState === "checking" || updateState === "installing"
@@ -111,7 +111,11 @@ export function Settings() {
                 ? "Updating..."
                 : "Check for updates"}
           </button>
-          <button type="button" className="btn btn-ghost" onClick={() => void openReleases()}>
+          <button
+            type="button"
+            className="btn btn-ghost w-full sm:w-auto"
+            onClick={() => void openReleases()}
+          >
             Open releases
           </button>
         </div>
@@ -294,10 +298,10 @@ function UnitRow({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4">
-      <span className="text-sm text-ocean-300">{label}</span>
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
+      <span className="text-sm text-ocean-300 shrink-0">{label}</span>
       <div
-        className="flex gap-0.5 bg-ocean-950 rounded-xl p-1 border border-ocean-800"
+        className="flex flex-wrap gap-0.5 bg-ocean-950 rounded-xl p-1 border border-ocean-800 self-start sm:self-auto"
         role="group"
         aria-label={label}
       >

@@ -11,7 +11,7 @@ export type UpdateCheckResult =
     }
   | { status: "unavailable"; version: string; message: string };
 
-const FALLBACK_VERSION = "0.1.4";
+const FALLBACK_VERSION = "0.1.6";
 
 function isTauriRuntime(): boolean {
   return (
