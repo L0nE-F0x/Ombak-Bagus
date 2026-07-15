@@ -15,6 +15,7 @@ import {
   IconSpots,
 } from "./components/NavIcons";
 import { isStale } from "./services/time";
+import { StudioCredit } from "./components/StudioCredit";
 
 const NAV: {
   id: Page;
@@ -200,11 +201,12 @@ function App() {
           })}
         </nav>
 
-        <div className="p-3 text-[10px] text-ocean-500 border-t border-ocean-800/70 leading-relaxed">
-          Open-Meteo | free data
+        <div className="p-3 text-[10px] text-ocean-500 border-t border-ocean-800/70 leading-relaxed space-y-1.5">
+          <div>Open-Meteo · free data</div>
           {isStale(lastRefresh, 90) && !loading && (
-            <div className="text-sand-400/90 mt-1">Data may be stale</div>
+            <div className="text-sand-400/90">Data may be stale</div>
           )}
+          <StudioCredit compact className="text-[10px] text-ocean-500/80" />
         </div>
       </aside>
 

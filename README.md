@@ -106,15 +106,23 @@ Forecasts and scores are planning aids. Ocean conditions change quickly; always 
 
 ## In-app updates
 
-Ombak Bagus uses the Tauri updater against GitHub Releases (`latest.json`).
+Users should not need the marketing site for routine updates. **Settings → Check for updates** works per platform:
 
-1. Signing keys live on the maintainer machine (`~/.tauri/ombak-bagus.key`) - **never commit the private key**.
+| Platform | How it updates |
+|----------|----------------|
+| **Windows / Mac** | Tauri signed updater → GitHub `latest.json` → download, install, relaunch |
+| **Android APK** | Compares installed version to the latest GitHub Release; **Download APK** opens the new package to install over the current app |
+| **iOS / browser PWA** | Service worker auto-update when online; check forces a refresh if a new shell is waiting |
+
+### Desktop signing (Windows / Mac)
+
+1. Signing keys live on the maintainer machine (`~/.tauri/ombak-bagus.key`) — **never commit the private key**.
 2. Public key is in `src-tauri/tauri.conf.json` under `plugins.updater.pubkey`.
 3. Add GitHub Actions secrets for release builds:
-   - `TAURI_SIGNING_PRIVATE_KEY` - full private key file contents
-   - `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` - only if the key has a password
+   - `TAURI_SIGNING_PRIVATE_KEY` — full private key file contents
+   - `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` — only if the key has a password
 4. Ship a release (tag or workflow_dispatch). Installers and updater artifacts are attached automatically.
-5. In the app: **Settings -> Check for updates**.
+5. Bump `src-tauri/tauri.conf.json` / Cargo version (and Android `versionName` / `versionCode` when shipping APK).
 
 This is the same path you will use for monetized / paid builds later (channel endpoints can diverge when you are ready).
 
