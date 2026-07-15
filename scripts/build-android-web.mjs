@@ -10,7 +10,9 @@ function run(cmd, args) {
   if (r.status !== 0) process.exit(r.status ?? 1);
 }
 
-process.env.BUILD_PWA = "1";
+// Relative asset paths for WebViewAssetLoader + https appassets origin.
+// Do NOT enable PWA/service worker in the Android shell (causes blank screens).
+process.env.BUILD_PWA = "0";
 process.env.VITE_BASE = "./";
 run("npx", ["tsc", "--noEmit"]);
 run("npx", ["vite", "build", "--outDir", "dist-android"]);
