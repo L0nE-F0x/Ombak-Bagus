@@ -18,6 +18,8 @@ import androidx.webkit.WebViewClientCompat
  * file:// cannot load ES modules in modern WebView (blank white screen).
  * WebViewAssetLoader serves assets under https://appassets.androidplatform.net
  * so modules, fetch, and relative asset paths work.
+ *
+ * Injects window.__OMBAK__ so the SPA knows platform + version for in-app updates.
  */
 class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
@@ -88,10 +90,31 @@ class MainActivity : AppCompatActivity() {
                 }
                 return false
             }
+
+            override fun onPageFinished(view: WebView, url: String) {
+                super.onPageFinished(view, url)
+                injectOmbakBridge(view)
+            }
         }
 
         // Bundled shell lives at assets/www/index.html
         webView.loadUrl("https://appassets.androidplatform.net/assets/www/index.html")
+    }
+
+    /**
+     * Expose platform + versionName so Settings → Check for updates can
+     * compare against the latest GitHub Release without guessing.
+     */
+    private fun injectOmbakBridge(view: WebView) {
+        val version = BuildConfig.VERSION_NAME.replace("'", "\\'")
+        val js =
+            """
+            window.__OMBAK__ = {
+              platform: 'android',
+              version: '$version'
+            };
+            """.trimIndent()
+        view.evaluateJavascript(js, null)
     }
 
     @Deprecated("Deprecated in Java")

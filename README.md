@@ -106,15 +106,21 @@ Forecasts and scores are planning aids. Ocean conditions change quickly; always 
 
 ## In-app updates
 
-Users should not need the marketing site for routine updates. **Settings → Check for updates** works per platform:
+Users should not need the marketing site for routine updates. **Settings → Check for updates** works on every OS:
 
 | Platform | How it updates |
 |----------|----------------|
-| **Windows / Mac** | Tauri signed updater → GitHub `latest.json` → download, install, relaunch |
-| **Android APK** | Compares installed version to the latest GitHub Release; **Download APK** opens the new package to install over the current app |
-| **iOS / browser PWA** | Service worker auto-update when online; check forces a refresh if a new shell is waiting |
+| **Windows** | 1) Tauri signed updater (`latest.json`) when CI signed the release → install + relaunch. 2) Fallback: open the latest `.exe` installer from GitHub Releases. |
+| **macOS** | Same signed path when available; otherwise open the latest `.dmg` (prefers Apple Silicon). |
+| **Android** | Compares `BuildConfig.VERSION_NAME` to the latest GitHub Release tag; **Download APK** opens the package to install over the current app. |
+| **iOS (PWA)** | Service worker auto-update + `version.json` channel on Netlify; **Reload to update** hard-refreshes the home-screen app. |
+| **Web browser** | Same as iOS PWA (reload / service worker). |
 
-### Desktop signing (Windows / Mac)
+Quiet check runs when Settings opens so an update banner can appear without hunting for the button.
+
+### Desktop signing (Windows / Mac) — one-tap install
+
+Without signing secrets, users still get an in-app **Download installer** button (manual run). For seamless install:
 
 1. Signing keys live on the maintainer machine (`~/.tauri/ombak-bagus.key`) — **never commit the private key**.
 2. Public key is in `src-tauri/tauri.conf.json` under `plugins.updater.pubkey`.
@@ -122,7 +128,7 @@ Users should not need the marketing site for routine updates. **Settings → Che
    - `TAURI_SIGNING_PRIVATE_KEY` — full private key file contents
    - `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` — only if the key has a password
 4. Ship a release (tag or workflow_dispatch). Installers and updater artifacts are attached automatically.
-5. Bump `src-tauri/tauri.conf.json` / Cargo version (and Android `versionName` / `versionCode` when shipping APK).
+5. Bump versions together: `package.json`, `src-tauri/tauri.conf.json`, Cargo, Android `versionName` / `versionCode`, and `website/version.json` (also written by `npm run package:site`).
 
 This is the same path you will use for monetized / paid builds later (channel endpoints can diverge when you are ready).
 

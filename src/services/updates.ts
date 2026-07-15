@@ -1,4 +1,12 @@
-export type AppPlatform = "desktop" | "android" | "web";
+/**
+ * In-app updates for every shell:
+ * - Windows / macOS (Tauri): signed updater when available, else open the
+ *   correct installer from GitHub Releases
+ * - Android APK: compare tag → open latest APK
+ * - iOS / browser PWA: service worker + remote version.json → reload
+ */
+
+export type AppPlatform = "windows" | "macos" | "android" | "ios" | "web";
 
 export type UpdateCheckResult =
   | { status: "up-to-date"; version: string; platform: AppPlatform }
@@ -13,6 +21,8 @@ export type UpdateCheckResult =
       install: () => Promise<void>;
       /** Primary button label for Settings UI */
       installLabel: string;
+      /** How the update will be applied (for UI copy) */
+      method: "signed" | "installer" | "apk" | "reload";
     }
   | {
       status: "unavailable";
@@ -23,11 +33,39 @@ export type UpdateCheckResult =
 
 const REPO = "L0nE-F0x/Ombak-Bagus";
 
-/** Bundled shell version for Android WebView / PWA when Tauri is not present. */
-const FALLBACK_VERSION = "0.1.7";
+/** Build-time version (Vite injects package.json). */
+declare const __APP_VERSION__: string | undefined;
+
+/** Bundled shell version when nothing else is available. */
+const FALLBACK_VERSION =
+  (typeof __APP_VERSION__ !== "undefined" && __APP_VERSION__) || "0.1.7";
 
 export const RELEASES_URL = `https://github.com/${REPO}/releases/latest`;
 export const APK_DOWNLOAD_URL = `https://github.com/${REPO}/releases/latest/download/Ombak-Bagus.apk`;
+
+/** Optional Netlify version channel (updated on each site package). */
+const SITE_VERSION_URLS = [
+  // Absolute marketing site (works from Android WebView / Tauri too)
+  "https://bagus.netlify.app/version.json",
+  // Same-origin when running as PWA under /app/
+  typeof location !== "undefined"
+    ? `${location.origin}/version.json`
+    : "",
+  typeof location !== "undefined"
+    ? `${location.origin}/app/version.json`
+    : "",
+].filter(Boolean);
+
+type OmbakBridge = {
+  platform?: string;
+  version?: string;
+};
+
+function bridge(): OmbakBridge {
+  if (typeof window === "undefined") return {};
+  return ((window as unknown as { __OMBAK__?: OmbakBridge }).__OMBAK__ ??
+    {}) as OmbakBridge;
+}
 
 function isTauriRuntime(): boolean {
   return (
@@ -37,42 +75,82 @@ function isTauriRuntime(): boolean {
   );
 }
 
-export function detectPlatform(): AppPlatform {
-  if (isTauriRuntime()) return "desktop";
-  if (typeof navigator === "undefined") return "web";
+function isIosDevice(): boolean {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent || "";
+  const iOS = /iPad|iPhone|iPod/i.test(ua);
+  const iPadOs =
+    navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+  return iOS || iPadOs;
+}
+
+function isAndroidDevice(): boolean {
+  if (typeof navigator === "undefined") return false;
   const host = typeof location !== "undefined" ? location.hostname : "";
-  if (
-    host === "appassets.androidplatform.net" ||
-    /Android/i.test(navigator.userAgent)
-  ) {
-    return "android";
+  if (host === "appassets.androidplatform.net") return true;
+  if (bridge().platform === "android") return true;
+  return /Android/i.test(navigator.userAgent || "");
+}
+
+export function detectPlatform(): AppPlatform {
+  if (isTauriRuntime()) {
+    const ua = navigator.userAgent || "";
+    const platform = navigator.platform || "";
+    if (/Win/i.test(platform) || /Windows/i.test(ua)) return "windows";
+    if (/Mac/i.test(platform) || /Mac OS|Macintosh/i.test(ua)) return "macos";
+    // Default desktop shell to Windows installer if UA is odd
+    return "windows";
   }
+  if (isAndroidDevice()) return "android";
+  if (isIosDevice()) return "ios";
   return "web";
+}
+
+export function platformLabel(platform: AppPlatform): string {
+  switch (platform) {
+    case "windows":
+      return "Windows";
+    case "macos":
+      return "macOS";
+    case "android":
+      return "Android";
+    case "ios":
+      return "iPhone / iPad";
+    case "web":
+      return "Web browser";
+  }
 }
 
 /** Human-readable blurb for Settings → App updates. */
 export function updateHelpText(platform: AppPlatform): string {
   switch (platform) {
-    case "desktop":
-      return "Windows and Mac can install signed updates from GitHub Releases in one tap, then restart. Same path for paid channels later.";
+    case "windows":
+      return "Checks GitHub for a newer build. Signed updates install in one tap when available; otherwise the Windows installer downloads so you can run it.";
+    case "macos":
+      return "Checks GitHub for a newer build. Signed updates install in one tap when available; otherwise the Mac .dmg downloads so you can open it.";
     case "android":
-      return "Android checks GitHub for a newer APK. Tap download, then open the file and allow install when prompted — no marketing site detour.";
+      return "Checks GitHub for a newer APK. Tap download, open the file, and allow install when prompted — no marketing site needed.";
+    case "ios":
+      return "The home-screen app updates over the network. Check for updates pulls the latest web build and reloads.";
     case "web":
-      return "The iPhone / browser app updates itself when you are online. Check for updates reloads a fresh build if one is waiting.";
+      return "When online, this page can reload a fresher build. Install to your home screen on iPhone for the full app experience.";
   }
 }
 
-/** Current app version from the Tauri package (falls back in browser/WebView). */
+/** Current app version from Tauri, Android bridge, or build-time constant. */
 export async function appVersion(): Promise<string> {
-  if (!isTauriRuntime()) {
-    return FALLBACK_VERSION;
+  const fromBridge = bridge().version?.trim();
+  if (fromBridge) return normalizeVersion(fromBridge);
+
+  if (isTauriRuntime()) {
+    try {
+      const { getVersion } = await import("@tauri-apps/api/app");
+      return normalizeVersion(await getVersion());
+    } catch {
+      /* fall through */
+    }
   }
-  try {
-    const { getVersion } = await import("@tauri-apps/api/app");
-    return await getVersion();
-  } catch {
-    return FALLBACK_VERSION;
-  }
+  return normalizeVersion(FALLBACK_VERSION);
 }
 
 function normalizeVersion(raw: string): string {
@@ -112,6 +190,7 @@ async function fetchLatestGithubRelease(): Promise<GithubRelease> {
       headers: {
         Accept: "application/vnd.github+json",
       },
+      cache: "no-store",
     }
   );
   if (!res.ok) {
@@ -124,6 +203,23 @@ async function fetchLatestGithubRelease(): Promise<GithubRelease> {
   return (await res.json()) as GithubRelease;
 }
 
+/** Remote version from marketing site version.json (best-effort). */
+async function fetchSiteVersion(): Promise<string | null> {
+  for (const url of SITE_VERSION_URLS) {
+    try {
+      const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}t=${Date.now()}`, {
+        cache: "no-store",
+      });
+      if (!res.ok) continue;
+      const data = (await res.json()) as { version?: string };
+      if (data.version) return normalizeVersion(data.version);
+    } catch {
+      /* try next */
+    }
+  }
+  return null;
+}
+
 function apkUrlFromRelease(release: GithubRelease): string {
   const assets = release.assets ?? [];
   const apk =
@@ -132,7 +228,32 @@ function apkUrlFromRelease(release: GithubRelease): string {
   return apk?.browser_download_url ?? APK_DOWNLOAD_URL;
 }
 
-async function openDownload(url: string): Promise<void> {
+/** Pick the best desktop installer asset for this OS. */
+function pickDesktopInstallerUrl(
+  release: GithubRelease,
+  platform: "windows" | "macos"
+): string | null {
+  const assets = release.assets ?? [];
+  if (!assets.length) return null;
+
+  if (platform === "windows") {
+    const setup =
+      assets.find((a) => /setup\.exe$/i.test(a.name)) ??
+      assets.find((a) => /x64.*\.exe$/i.test(a.name)) ??
+      assets.find((a) => /\.exe$/i.test(a.name));
+    return setup?.browser_download_url ?? null;
+  }
+
+  // macOS — prefer Apple Silicon, then Intel, then any dmg
+  const dmg =
+    assets.find((a) => /aarch64.*\.dmg$/i.test(a.name)) ??
+    assets.find((a) => /arm64.*\.dmg$/i.test(a.name)) ??
+    assets.find((a) => /x64.*\.dmg$/i.test(a.name)) ??
+    assets.find((a) => /\.dmg$/i.test(a.name));
+  return dmg?.browser_download_url ?? null;
+}
+
+export async function openDownload(url: string): Promise<void> {
   try {
     if (isTauriRuntime()) {
       const { openUrl } = await import("@tauri-apps/plugin-opener");
@@ -143,47 +264,108 @@ async function openDownload(url: string): Promise<void> {
     /* fall through */
   }
   // Android WebView MainActivity opens http(s) in the system browser.
-  window.open(url, "_blank", "noopener,noreferrer");
+  // iOS Safari / PWA: navigate or open.
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 }
 
-async function checkDesktopUpdate(
-  version: string
-): Promise<UpdateCheckResult> {
+async function checkSignedDesktopUpdate(
+  version: string,
+  platform: "windows" | "macos"
+): Promise<UpdateCheckResult | null> {
   try {
     const { check } = await import("@tauri-apps/plugin-updater");
     const { relaunch } = await import("@tauri-apps/plugin-process");
     const update = await check();
     if (!update) {
-      return { status: "up-to-date", version, platform: "desktop" };
+      // Plugin says nothing newer — still confirm against GitHub below.
+      return null;
     }
 
     return {
       status: "available",
       version: update.version,
       currentVersion: version,
-      platform: "desktop",
+      platform,
       notes: update.body ?? undefined,
       date: update.date ?? undefined,
       installLabel: "Download and install",
+      method: "signed",
       install: async () => {
         await update.downloadAndInstall();
         await relaunch();
       },
     };
+  } catch {
+    // Unsigned local builds, missing latest.json, or no signing key in CI.
+    return null;
+  }
+}
+
+async function checkGithubDesktopUpdate(
+  version: string,
+  platform: "windows" | "macos"
+): Promise<UpdateCheckResult> {
+  try {
+    const release = await fetchLatestGithubRelease();
+    const latest = normalizeVersion(release.tag_name);
+    if (compareVersions(latest, version) <= 0) {
+      return { status: "up-to-date", version, platform };
+    }
+
+    const installerUrl = pickDesktopInstallerUrl(release, platform);
+    const isMac = platform === "macos";
+    return {
+      status: "available",
+      version: latest,
+      currentVersion: version,
+      platform,
+      notes:
+        release.body?.trim() ||
+        (isMac
+          ? "A newer Mac build is ready. Download the .dmg, open it, and drag Ombak Bagus to Applications."
+          : "A newer Windows build is ready. Download the installer and run it over your current install."),
+      date: release.published_at ?? undefined,
+      installLabel: isMac ? "Download Mac installer" : "Download Windows installer",
+      method: "installer",
+      install: async () => {
+        await openDownload(installerUrl ?? RELEASES_URL);
+      },
+    };
   } catch (err) {
-    const message =
-      err instanceof Error
-        ? err.message
-        : typeof err === "string"
-          ? err
-          : "Could not check for updates";
     return {
       status: "unavailable",
       version,
-      platform: "desktop",
-      message,
+      platform,
+      message:
+        err instanceof Error
+          ? err.message
+          : "Could not check GitHub for a desktop update.",
     };
   }
+}
+
+async function checkDesktopUpdate(
+  version: string,
+  platform: "windows" | "macos"
+): Promise<UpdateCheckResult> {
+  const signed = await checkSignedDesktopUpdate(version, platform);
+  if (signed?.status === "available") return signed;
+
+  const fromGithub = await checkGithubDesktopUpdate(version, platform);
+  if (fromGithub.status !== "unavailable") return fromGithub;
+
+  // GitHub failed but signed path said up-to-date (null) — treat as up-to-date
+  if (signed === null && fromGithub.status === "unavailable") {
+    // Prefer showing the network error if we couldn't verify either way
+    return fromGithub;
+  }
+  return { status: "up-to-date", version, platform };
 }
 
 async function checkAndroidUpdate(
@@ -203,9 +385,10 @@ async function checkAndroidUpdate(
       platform: "android",
       notes:
         release.body?.trim() ||
-        "A newer Android build is on GitHub. Download the APK and open it to install over your current app.",
+        "A newer Android build is ready. Download the APK and open it to install over your current app.",
       date: release.published_at ?? undefined,
       installLabel: "Download APK",
+      method: "apk",
       install: async () => {
         await openDownload(apkUrl);
       },
@@ -223,8 +406,34 @@ async function checkAndroidUpdate(
   }
 }
 
-async function checkWebUpdate(version: string): Promise<UpdateCheckResult> {
-  // Prefer service worker when the installable PWA is registered.
+async function hardReload(): Promise<void> {
+  // Bust caches as much as browsers allow, then reload.
+  try {
+    if ("caches" in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((k) => caches.delete(k)));
+    }
+  } catch {
+    /* ignore */
+  }
+  try {
+    const regs = await navigator.serviceWorker?.getRegistrations?.();
+    if (regs) {
+      await Promise.all(regs.map((r) => r.unregister()));
+    }
+  } catch {
+    /* ignore */
+  }
+  const url = new URL(window.location.href);
+  url.searchParams.set("_v", String(Date.now()));
+  window.location.replace(url.toString());
+}
+
+async function checkWebOrIosUpdate(
+  version: string,
+  platform: "ios" | "web"
+): Promise<UpdateCheckResult> {
+  // 1) Service worker waiting worker
   if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
     try {
       const reg = await navigator.serviceWorker.getRegistration();
@@ -235,62 +444,87 @@ async function checkWebUpdate(version: string): Promise<UpdateCheckResult> {
             status: "available",
             version: "latest",
             currentVersion: version,
-            platform: "web",
+            platform,
             notes: "A newer web app build is ready. Reload to apply it.",
             installLabel: "Reload to update",
+            method: "reload",
             install: async () => {
               reg.waiting?.postMessage({ type: "SKIP_WAITING" });
-              window.location.reload();
+              // Give the new SW a moment, then hard reload
+              await new Promise((r) => setTimeout(r, 150));
+              await hardReload();
             },
           };
         }
       }
     } catch {
-      /* fall through to release check */
+      /* fall through */
     }
   }
 
-  // Informational: newer GitHub tag than the bundled FALLBACK_VERSION
-  // (mainly useful for Android-shaped builds mis-detected as web).
+  // 2) Site version.json and/or GitHub release tag
+  let remote: string | null = null;
+  let notes =
+    platform === "ios"
+      ? "A newer build is available. Reload to pull it into the home-screen app."
+      : "A newer build is available. Reload this page to get it.";
+
+  try {
+    remote = await fetchSiteVersion();
+  } catch {
+    /* ignore */
+  }
+
   try {
     const release = await fetchLatestGithubRelease();
-    const latest = normalizeVersion(release.tag_name);
-    if (compareVersions(latest, version) > 0) {
-      return {
-        status: "available",
-        version: latest,
-        currentVersion: version,
-        platform: "web",
-        notes:
-          "A newer release is out. Reload this page. On iPhone, force-close and reopen the home-screen app if it still looks old.",
-        installLabel: "Reload page",
-        install: async () => {
-          window.location.reload();
-        },
-      };
+    const tag = normalizeVersion(release.tag_name);
+    if (!remote || compareVersions(tag, remote) > 0) {
+      remote = tag;
+      if (release.body?.trim()) notes = release.body.trim();
     }
   } catch {
-    /* network offline — treat as up to date enough */
+    /* ignore if site version worked */
   }
 
-  return { status: "up-to-date", version, platform: "web" };
+  if (remote && compareVersions(remote, version) > 0) {
+    return {
+      status: "available",
+      version: remote,
+      currentVersion: version,
+      platform,
+      notes,
+      installLabel: "Reload to update",
+      method: "reload",
+      install: async () => {
+        await hardReload();
+      },
+    };
+  }
+
+  if (remote === null && !(typeof navigator !== "undefined" && "serviceWorker" in navigator)) {
+    return {
+      status: "unavailable",
+      version,
+      platform,
+      message: "Could not reach the update channel. Check your connection and try again.",
+    };
+  }
+
+  return { status: "up-to-date", version, platform };
 }
 
 /**
- * Check for updates on the current shell:
- * - Desktop (Tauri): signed GitHub updater + relaunch
- * - Android APK: compare version to latest GitHub release, open APK URL
- * - Web / iOS PWA: service worker + reload
+ * Check for updates on the current shell.
  */
 export async function checkForAppUpdate(): Promise<UpdateCheckResult> {
   const version = await appVersion();
   const platform = detectPlatform();
 
-  if (platform === "desktop") {
-    return checkDesktopUpdate(version);
+  if (platform === "windows" || platform === "macos") {
+    return checkDesktopUpdate(version, platform);
   }
   if (platform === "android") {
     return checkAndroidUpdate(version);
   }
-  return checkWebUpdate(version);
+  return checkWebOrIosUpdate(version, platform === "ios" ? "ios" : "web");
 }

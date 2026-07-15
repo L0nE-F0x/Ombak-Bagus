@@ -23,11 +23,27 @@ mkdirSync(out, { recursive: true });
 // 1) Marketing site
 cpSync(join(root, "website"), out, { recursive: true });
 
+// Keep version.json in sync with package.json (iOS/PWA update channel)
+const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+const versionPayload = JSON.stringify(
+  {
+    name: "Ombak Bagus",
+    version: pkg.version,
+    updatedAt: new Date().toISOString(),
+  },
+  null,
+  2
+);
+writeFileSync(join(out, "version.json"), versionPayload + "\n");
+writeFileSync(join(root, "website", "version.json"), versionPayload + "\n");
+
 // 2) Web PWA app under /app/
 run("node", ["scripts/build-web.mjs"]);
 const appOut = join(out, "app");
 mkdirSync(appOut, { recursive: true });
 cpSync(join(root, "dist"), appOut, { recursive: true });
+// Same channel under /app/ so the PWA can fetch same-origin.
+writeFileSync(join(appOut, "version.json"), versionPayload + "\n");
 
 // SPA fallback for /app/* (Netlify _redirects also handles this)
 const redirects = join(out, "_redirects");
@@ -37,4 +53,4 @@ if (!red.includes("/app/*")) {
   writeFileSync(redirects, red.trim() + "\n");
 }
 
-console.log("packaged site -> dist-site/ (marketing + /app PWA)");
+console.log(`packaged site -> dist-site/ (marketing + /app PWA) v${pkg.version}`);

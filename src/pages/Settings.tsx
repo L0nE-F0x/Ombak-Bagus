@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useAppStore } from "../store/useAppStore";
 import { formatDateTime } from "../services/time";
 import { openExternalUrl } from "../services/brand";
@@ -7,6 +7,7 @@ import {
   appVersion,
   checkForAppUpdate,
   detectPlatform,
+  platformLabel,
   RELEASES_URL,
   updateHelpText,
   type AppPlatform,
@@ -59,20 +60,24 @@ export function Settings() {
   const onInstallUpdate = async () => {
     if (!updateInfo || updateInfo.status !== "available") return;
     setUpdateState("installing");
+    const method = updateInfo.method;
     setInstallProgress(
-      updateInfo.platform === "desktop"
+      method === "signed"
         ? "Downloading update..."
-        : updateInfo.platform === "android"
+        : method === "apk"
           ? "Opening APK download..."
-          : "Reloading..."
+          : method === "installer"
+            ? "Opening installer download..."
+            : "Reloading..."
     );
     setUpdateError(null);
     try {
-      if (updateInfo.platform === "desktop") {
+      if (method === "signed") {
         setInstallProgress("Installing and restarting...");
       }
       await updateInfo.install();
-      if (updateInfo.platform === "android") {
+      // Installer / APK leave the app running — reset button state.
+      if (method === "apk" || method === "installer") {
         setUpdateState("available");
         setInstallProgress(null);
       }
@@ -89,7 +94,7 @@ export function Settings() {
     void openExternalUrl(RELEASES_URL);
   };
 
-  const isDesktop = platform === "desktop";
+  const isDesktop = platform === "windows" || platform === "macos";
 
   return (
     <div className="space-y-5 md:space-y-6 max-w-xl">
@@ -105,6 +110,10 @@ export function Settings() {
         <div className="flex items-center justify-between gap-4 text-sm">
           <span className="text-ocean-400">Installed version</span>
           <span className="text-foam font-medium tabular-nums">v{version}</span>
+        </div>
+        <div className="flex items-center justify-between gap-4 text-sm">
+          <span className="text-ocean-400">This device</span>
+          <span className="text-ocean-200 font-medium">{platformLabel(platform)}</span>
         </div>
         <p className="text-xs text-ocean-500 leading-relaxed">
           {updateHelpText(platform)}
@@ -286,7 +295,7 @@ export function Settings() {
       <section className="glass rounded-2xl p-5 text-sm text-ocean-400">
         <p className="text-foam font-medium">Ombak Bagus v{version}</p>
         <p className="mt-1.5 leading-relaxed">
-          Built for checking Bali before you paddle — swell, wind, tides, and
+          Built for checking Bali before you paddle â€” swell, wind, tides, and
           your logbook in one place.
         </p>
         <StudioCredit />
