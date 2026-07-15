@@ -88,30 +88,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 return false
             }
-
-            override fun onReceivedError(
-                view: WebView,
-                request: WebResourceRequest,
-                error: android.webkit.WebResourceError
-            ) {
-                super.onReceivedError(view, request, error)
-                if (request.isForMainFrame) {
-                    val msg = error.description?.toString() ?: "Unknown error"
-                    view.loadDataWithBaseURL(
-                        null,
-                        """
-                        <html><body style="background:#0c1a1f;color:#f3efe6;font-family:sans-serif;padding:24px;">
-                        <h2>Ombak Bagus could not load</h2>
-                        <p style="opacity:0.8">$msg</p>
-                        <p style="opacity:0.6;font-size:14px">Try reinstalling the APK from ombakbagus.netlify.app</p>
-                        </body></html>
-                        """.trimIndent(),
-                        "text/html",
-                        "UTF-8",
-                        null
-                    )
-                }
-            }
         }
 
         // Bundled shell lives at assets/www/index.html
