@@ -46,7 +46,7 @@ export const APK_DOWNLOAD_URL = `https://github.com/${REPO}/releases/latest/down
 /** Optional Netlify version channel (updated on each site package). */
 const SITE_VERSION_URLS = [
   // Absolute marketing site (works from Android WebView / Tauri too)
-  "https://bagus.netlify.app/version.json",
+  "https://ombakbagus.netlify.app/version.json",
   // Same-origin when running as PWA under /app/
   typeof location !== "undefined"
     ? `${location.origin}/version.json`
