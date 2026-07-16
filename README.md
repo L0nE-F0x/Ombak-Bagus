@@ -41,7 +41,7 @@ Mac builds use **ad-hoc signing** (`signingIdentity: "-"`). Friends may need rig
 ## Features
 
 - **Dashboard** — best spots right now, favorites, upcoming tides, 7-day score
-- **50+ Bali breaks** — Bukit, Canggu, Kuta-Seminyak, East Coast, Sanur, Nusa Dua, West Coast, Nusa Islands, North Bali (expanded catalog ready for future monetization)
+- **53 curated Bali breaks** — Bukit, Canggu, Kuta-Seminyak, East Coast, Sanur, Nusa Dua, West Coast, Nusa Islands (established breaks only; no map fillers)
 - **Live marine data** — Open-Meteo wave/swell + wind/weather (free, no API key)
 - **Tide charts** — astronomical estimate tuned for Bali regions
 - **Spot scores** — blends swell size/period/direction, offshore wind vs. reef face, tide preference

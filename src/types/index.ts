@@ -6,8 +6,7 @@ export type Region =
   | "Sanur"
   | "Nusa Dua"
   | "West Coast"
-  | "Nusa Islands"
-  | "North Bali";
+  | "Nusa Islands";
 
 /** Access tier for monetization later. All spots are free/visible for now. */
 export type SpotCatalog = "core" | "expanded";

@@ -25,7 +25,6 @@ const REGION_TUNE: Record<
   "Nusa Dua": { scale: 0.98, phaseHours: 0.1, msl: 1.12 },
   "West Coast": { scale: 0.85, phaseHours: -0.2, msl: 1.0 },
   "Nusa Islands": { scale: 0.94, phaseHours: 0.25, msl: 1.08 },
-  "North Bali": { scale: 0.75, phaseHours: 0.5, msl: 0.95 },
 };
 
 const CONSTITUENTS: Constituent[] = [

@@ -38,7 +38,7 @@ declare const __APP_VERSION__: string | undefined;
 
 /** Bundled shell version when nothing else is available. */
 const FALLBACK_VERSION =
-  (typeof __APP_VERSION__ !== "undefined" && __APP_VERSION__) || "0.1.9";
+  (typeof __APP_VERSION__ !== "undefined" && __APP_VERSION__) || "0.1.10";
 
 export const RELEASES_URL = `https://github.com/${REPO}/releases/latest`;
 export const APK_DOWNLOAD_URL = `https://github.com/${REPO}/releases/latest/download/Ombak-Bagus.apk`;

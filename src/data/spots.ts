@@ -17,15 +17,20 @@ export const REGION_ORDER = [
   "East Coast",
   "West Coast",
   "Nusa Islands",
-  "North Bali",
 ] as const;
 
 /**
- * Curated Bali surf spots with orientations for wind/swell scoring.
- * Coordinates are approximate peak/lineup anchors for Open-Meteo sea cells.
+ * Curated Bali surf spots for wind/swell scoring.
+ *
+ * Inclusion rule: only established breaks that appear on reputable forecast
+ * maps / Bali surf guides (e.g. Surfline Bali map, major spot guides). No
+ * tourist swimming beaches, ferry towns, or north-coast map fillers.
+ *
+ * Coordinates are approximate lineup anchors for Open-Meteo sea cells — not
+ * survey marks. Live swell/wind come from Open-Meteo. Tide heights are a
+ * planning estimate, not official tables.
  */
 export const BALI_SPOTS: Spot[] = [
-  // ── Core (original 16) ──────────────────────────────────────────────
   {
     id: "uluwatu",
     name: "Uluwatu",
@@ -39,8 +44,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "World-class left reef break. Multiple peaks (The Peak, Racetracks, Temples, Outside Corner). Needs solid SW swell.",
+    description: "World-class left reef break with multiple named sections (The Peak, Racetracks, Temples, Outside Corner). Needs solid SW swell.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -56,8 +60,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "expert",
     bottom: "Reef",
-    description:
-      "Hollow left barrel. Fires on solid SW groundswell with mid tide. Crowded when good.",
+    description: "Hollow left barrel over shallow reef. Fires on solid SW groundswell with mid tide. Crowded when good.",
     bestMonths: "May-Sep",
   },
   {
@@ -73,8 +76,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Short powerful lefts. Heavy takeoff, barrel section. Best on mid tide rising.",
+    description: "Short powerful lefts. Heavy takeoff and barrel section. Best on mid tide rising.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -90,8 +92,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Long left-hand walls. Multiple sections, can link up on good days. Lower crowds than Ulu.",
+    description: "Long left-hand walls with multiple sections that can link on good days. Often fewer crowds than Uluwatu.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -107,8 +108,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Reef / Sand",
-    description:
-      "Fun lefts, more forgiving than deeper Bukit spots. Good intermediate option.",
+    description: "Fun lefts, more forgiving than deeper Bukit reefs. Solid intermediate option on SW swell.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -124,8 +124,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "beginner",
     bottom: "Sand / Reef",
-    description:
-      "Beach break with mixed peaks. Soft on small days, punchier on swell. Easy access.",
+    description: "Beach break with mixed peaks. Soft on small days, punchier on swell. Easy access.",
     bestMonths: "Year-round",
   },
   {
@@ -141,8 +140,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "intermediate",
     bottom: "Reef",
-    description:
-      "Remote right/left reef at the base of stairs. Cleaner when Bukit west side is blown out.",
+    description: "Remote right/left reef at the base of a long stairway (also listed as Green Ball on some charts). Cleaner when the Bukit west side is blown out.",
     bestMonths: "May-Sep",
   },
   {
@@ -158,8 +156,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand / Rock",
-    description:
-      "Canggu main peak. Fun beach break, works on most swells. Busy, social vibe.",
+    description: "Canggu main peak. Fun reef/beach hybrid that works on most swells. Busy, social lineup.",
     bestMonths: "Year-round",
   },
   {
@@ -175,8 +172,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand",
-    description:
-      "Powerful beach break. Bigger and punchier than Batu Bolong on the same swell.",
+    description: "Powerful Canggu beach/reef peaks. Bigger and punchier than Batu Bolong on the same swell.",
     bestMonths: "Year-round",
   },
   {
@@ -192,8 +188,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand",
-    description:
-      "Less crowded Canggu option. Peaky beach break, good for intermediates.",
+    description: "Canggu stretch north of Batu Bolong. Peaky beach break, often slightly less crowded than the main peak.",
     bestMonths: "Year-round",
   },
   {
@@ -209,8 +204,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "beginner",
     bottom: "Sand",
-    description:
-      "Mellower Canggu beach break. Good when you want something softer.",
+    description: "Mellower Canggu beach break south of Echo. Good when you want something softer.",
     bestMonths: "Year-round",
   },
   {
@@ -226,8 +220,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "World-class right-hand barrels. Loves SE-E swell and W winds. Dry season gem.",
+    description: "World-class right-hand barrels on the east coast. Loves SE–E swell and west winds in dry season.",
     bestMonths: "May-Oct",
   },
   {
@@ -243,8 +236,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "high",
     skill: "intermediate",
     bottom: "Reef",
-    description:
-      "Right reef. Works on E swell / high tide. Classic when west coast is huge or blown.",
+    description: "Right reef on Bali's east-facing shore. Works on E swell and higher tides when the west coast is huge or blown out.",
     bestMonths: "Dec-Mar",
   },
   {
@@ -260,8 +252,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Powerful rights (Sri Lanka, Racetrack). Big-wave energy on solid SE-S swell.",
+    description: "Powerful rights on the Nusa Dua reef (Sri Lanka, Racetrack and nearby peaks). Big-wave energy on solid SE–S swell.",
     bestMonths: "Jun-Oct",
   },
   {
@@ -277,8 +268,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand / Rock",
-    description:
-      "Long left point. Mellow walls, great for logging and longboards. West Bali road trip.",
+    description: "Long left point on the west coast — one of Bali's longest rides. Mellow walls suited to longboards and mid-lengths.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -294,12 +284,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Right-hand reef near the airport runway. Works on E-SE swell with W-SW wind.",
+    description: "Right-hand reef near the runway / Serangan channel (also called Airport Rights). Works on E–SE swell with W–SW wind.",
     bestMonths: "Dec-Mar",
   },
-
-  // ── Expanded: Bukit ─────────────────────────────────────────────────
   {
     id: "suluban",
     name: "Suluban",
@@ -313,8 +300,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Cave access to Uluwatu-side reefs. Clean walls when SW is on; watch the tide and currents.",
+    description: "Cave-access beach into the Uluwatu reef complex. Same SW window as Ulu; watch tide, currents, and crowds.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -330,8 +316,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "expert",
     bottom: "Reef",
-    description:
-      "Main Ulu takeoff. Heavy lefts, long walls into Racetracks. Serious lineup when big.",
+    description: "Main Uluwatu takeoff section. Heavy lefts that run into Racetracks on solid SW swell.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -347,8 +332,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Speed section of the Ulu left. Fast walls after The Peak; links on solid swell.",
+    description: "Speed section of the Uluwatu left after The Peak. Fast walls when the swell is lined up.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -364,8 +348,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Inside Ulu section near the temple cliffs. Punchy end section when the swell is lined up.",
+    description: "Inside Uluwatu section toward the temple cliffs. Punchy end section on lined-up SW swell.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -381,8 +364,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "expert",
     bottom: "Reef",
-    description:
-      "Outer Ulu corner. Needs size; long lefts for experienced reef surfers.",
+    description: "Outer Uluwatu corner. Needs size; long lefts for experienced reef surfers.",
     bestMonths: "May-Sep",
   },
   {
@@ -398,8 +380,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand / Reef",
-    description:
-      "Long beach + reef mix south of Ulu. Walk-in access, often lighter crowds than Padang.",
+    description: "Long south-Bukit beach and reef mix (listed on Surfline). Walk-in access; often lighter crowds than Padang Padang.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -415,8 +396,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand / Reef",
-    description:
-      "Beachy peaks between Padang and Bingin. Fun on mid-size SW, more mellow than hollow lefts.",
+    description: "Peaks between Padang Padang and Bingin. More beachy and mellow than the hollow lefts either side.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -432,63 +412,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Reef peaks near Padang Padang cafe strip. Can get hollow; busy when the swell is on.",
+    description: "Reef peaks on the Padang Padang strip (Single Fin / Hang Loose area). Can get hollow; busy when the swell is on.",
     bestMonths: "May-Sep",
   },
-  {
-    id: "melasti",
-    name: "Melasti Beach",
-    region: "Bukit",
-    catalog: "expanded",
-    lat: -8.8472,
-    lon: 115.175,
-    faces: 165,
-    swellWindow: [130, 210],
-    offshoreWindow: [350, 80],
-    tidePreference: "all",
-    skill: "beginner",
-    bottom: "Sand",
-    description:
-      "Sheltered south Bukit beach. Soft beach peaks; good beginner days when west is huge.",
-    bestMonths: "Year-round",
-  },
-  {
-    id: "pandawa",
-    name: "Pandawa Beach",
-    region: "Bukit",
-    catalog: "expanded",
-    lat: -8.8456,
-    lon: 115.1867,
-    faces: 155,
-    swellWindow: [120, 200],
-    offshoreWindow: [340, 70],
-    tidePreference: "all",
-    skill: "beginner",
-    bottom: "Sand",
-    description:
-      "Cliff-cut beach on the south coast. Gentle when small; touristy but easy access.",
-    bestMonths: "Year-round",
-  },
-  {
-    id: "karma-kandara",
-    name: "Karma Kandara",
-    region: "Bukit",
-    catalog: "expanded",
-    lat: -8.8411,
-    lon: 115.1622,
-    faces: 175,
-    swellWindow: [140, 220],
-    offshoreWindow: [0, 90],
-    tidePreference: "mid",
-    skill: "intermediate",
-    bottom: "Reef / Sand",
-    description:
-      "Private-beach vibe near Ungasan. Mixed peaks; cleaner on S swell with N-NE wind.",
-    bestMonths: "May-Sep",
-  },
-
-  // ── Expanded: Canggu ────────────────────────────────────────────────
   {
     id: "old-mans",
     name: "Old Man's",
@@ -502,8 +428,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "beginner",
     bottom: "Sand",
-    description:
-      "Longboard classic next to Batu Bolong. Soft rolling lefts/rights, always busy.",
+    description: "Longboard classic next to Batu Bolong reef. Soft rolling lefts and rights; almost always busy.",
     bestMonths: "Year-round",
   },
   {
@@ -519,8 +444,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand",
-    description:
-      "Quieter stretch north of Pererenan. Peaky beach break with space to spread out.",
+    description: "Black-sand stretch north of Pererenan. Peaky beach break with more space than Canggu core.",
     bestMonths: "Year-round",
   },
   {
@@ -536,25 +460,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand / Rock",
-    description:
-      "Black-sand beach break past Seseh. Works on SW swell; often less crowded than Canggu core.",
-    bestMonths: "Apr-Oct",
-  },
-  {
-    id: "munggu",
-    name: "Munggu",
-    region: "Canggu",
-    catalog: "expanded",
-    lat: -8.6067,
-    lon: 115.0806,
-    faces: 235,
-    swellWindow: [195, 285],
-    offshoreWindow: [85, 185],
-    tidePreference: "all",
-    skill: "intermediate",
-    bottom: "Sand",
-    description:
-      "Further up the coast toward Tanah Lot. Inconsistent but empty peaks on the right day.",
+    description: "Beach break past Seseh toward Tanah Lot. Works on SW swell; often quieter than Batu Bolong.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -570,12 +476,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand",
-    description:
-      "Echo Beach / Old Man's neighborhood peaks. Punchy beach break on SW swell.",
+    description: "Canggu peaks in the Echo Beach / Old Man's neighbourhood. Punchy beach break on SW swell.",
     bestMonths: "Year-round",
   },
-
-  // ── Expanded: Kuta-Seminyak ─────────────────────────────────────────
   {
     id: "kuta",
     name: "Kuta Beach",
@@ -589,8 +492,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "beginner",
     bottom: "Sand",
-    description:
-      "Classic tourist beach break. Soft on small days, rips when bigger. Easy lessons zone.",
+    description: "Classic tourist beach break and lesson zone. Soft on small days; strong rips when the swell is up.",
     bestMonths: "Year-round",
   },
   {
@@ -606,8 +508,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "beginner",
     bottom: "Sand",
-    description:
-      "Beach peaks between Kuta and Seminyak. Similar banks, slightly less chaotic than Kuta core.",
+    description: "Beach peaks between Kuta and Seminyak. Same SW window as Kuta with shifting sandbanks.",
     bestMonths: "Year-round",
   },
   {
@@ -623,8 +524,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "beginner",
     bottom: "Sand",
-    description:
-      "Seminyak beach break near Double Six. Fun peaks; busy sunset session scene.",
+    description: "Seminyak beach break near Double Six. Fun peaks on SW swell; busy sunset session scene.",
     bestMonths: "Year-round",
   },
   {
@@ -640,8 +540,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "beginner",
     bottom: "Sand",
-    description:
-      "Long beach stretch with shifting peaks. Good when Canggu is maxed and you want something softer.",
+    description: "Long beach stretch with shifting peaks between Legian and Petitenget.",
     bestMonths: "Year-round",
   },
   {
@@ -657,12 +556,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand",
-    description:
-      "North Seminyak toward Canggu. Stronger rips on swell; links the beach corridor north.",
+    description: "North Seminyak toward Canggu. Stronger rips on swell; continuous beach-break corridor.",
     bestMonths: "Year-round",
   },
-
-  // ── Expanded: Sanur ─────────────────────────────────────────────────
   {
     id: "sanur-reef",
     name: "Sanur Reef",
@@ -676,8 +572,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "high",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Outer reef rights off Sanur. Needs east energy and enough tide to clear the coral.",
+    description: "Outer reef rights off Sanur. Needs east energy and enough tide to clear coral.",
     bestMonths: "Dec-Mar",
   },
   {
@@ -693,8 +588,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "high",
     skill: "intermediate",
     bottom: "Reef",
-    description:
-      "Sanur rights near Tanjung Sari. Classic wet-season option when west is blown out.",
+    description: "Sanur rights near Tanjung Sari (listed on Surfline). Classic wet-season option when west is blown out.",
     bestMonths: "Dec-Mar",
   },
   {
@@ -710,8 +604,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "high",
     skill: "intermediate",
     bottom: "Reef / Sand",
-    description:
-      "Northern Sanur peaks. Works on E swell; friendlier than outer reef sections.",
+    description: "Northern Sanur peaks (Sindhu Beach on Surfline). East-swell option, friendlier than outer reef.",
     bestMonths: "Dec-Mar",
   },
   {
@@ -727,12 +620,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "intermediate",
     bottom: "Reef / Sand",
-    description:
-      "Turtle Island / Serangan area. Mixed banks and reef; check access and boat traffic.",
+    description: "Serangan / Turtle Island area (listed on Surfline). Mixed banks and reef; watch boat traffic and channel currents.",
     bestMonths: "Dec-Mar",
   },
-
-  // ── Expanded: Nusa Dua ──────────────────────────────────────────────
   {
     id: "sri-lanka",
     name: "Sri Lanka",
@@ -746,8 +636,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Famous Nusa Dua right. Heavy takeoff, long walls. Needs solid SE-S groundswell.",
+    description: "Famous Nusa Dua right (listed on Surfline). Heavy takeoff and long walls on solid SE–S groundswell.",
     bestMonths: "Jun-Oct",
   },
   {
@@ -763,8 +652,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "expert",
     bottom: "Reef",
-    description:
-      "Fast powerful right inside the Nusa Dua reef complex. Serious wave when big.",
+    description: "Fast powerful right inside the Nusa Dua reef complex. Serious wave when the swell is big.",
     bestMonths: "Jun-Oct",
   },
   {
@@ -780,29 +668,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "beginner",
     bottom: "Sand / Reef",
-    description:
-      "Sheltered Nusa Dua beach. Soft waves, good for beginners when outer reefs are pumping.",
+    description: "Sheltered Nusa Dua beach inside the peninsula. Soft waves when outer reefs are pumping.",
     bestMonths: "Year-round",
   },
-  {
-    id: "tanjung-benoa",
-    name: "Tanjung Benoa",
-    region: "Nusa Dua",
-    catalog: "expanded",
-    lat: -8.7689,
-    lon: 115.2256,
-    faces: 100,
-    swellWindow: [60, 140],
-    offshoreWindow: [230, 320],
-    tidePreference: "high",
-    skill: "beginner",
-    bottom: "Sand",
-    description:
-      "Bay-side beach with small windswell and boat traffic. Soft beginner water more than a proper break.",
-    bestMonths: "Year-round",
-  },
-
-  // ── Expanded: East Coast ────────────────────────────────────────────
   {
     id: "ketewel",
     name: "Ketewel",
@@ -816,8 +684,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Right-hand reef south of Keramas zone. Works on SE swell with W winds.",
+    description: "Right-hand reef south of the Keramas zone (listed on Surfline). SE swell with west winds.",
     bestMonths: "May-Oct",
   },
   {
@@ -833,60 +700,8 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "intermediate",
     bottom: "Sand / Reef",
-    description:
-      "Black-sand east coast beach with occasional reef peaks. Quiet alternative to Keramas crowds.",
+    description: "Black-sand east-coast beach with occasional reef peaks. Quieter alternative near the Keramas corridor.",
     bestMonths: "May-Oct",
-  },
-  {
-    id: "padangbai",
-    name: "Padangbai",
-    region: "East Coast",
-    catalog: "expanded",
-    lat: -8.5317,
-    lon: 115.5089,
-    faces: 110,
-    swellWindow: [70, 160],
-    offshoreWindow: [220, 310],
-    tidePreference: "mid",
-    skill: "intermediate",
-    bottom: "Reef / Sand",
-    description:
-      "Ferry-town east coast. Small rights and beach peaks; handy if you are heading to Lombok.",
-    bestMonths: "May-Oct",
-  },
-  {
-    id: "candidasa",
-    name: "Candidasa",
-    region: "East Coast",
-    catalog: "expanded",
-    lat: -8.5089,
-    lon: 115.5667,
-    faces: 130,
-    swellWindow: [90, 180],
-    offshoreWindow: [240, 330],
-    tidePreference: "mid",
-    skill: "intermediate",
-    bottom: "Reef",
-    description:
-      "East Bali reef and pointy sections. Needs the right SE pulse; quieter than south coast.",
-    bestMonths: "May-Sep",
-  },
-  {
-    id: "jasri",
-    name: "Jasri",
-    region: "East Coast",
-    catalog: "expanded",
-    lat: -8.4856,
-    lon: 115.5911,
-    faces: 125,
-    swellWindow: [85, 175],
-    offshoreWindow: [235, 325],
-    tidePreference: "mid",
-    skill: "intermediate",
-    bottom: "Sand / Reef",
-    description:
-      "Near Karangasem. Occasional fun rights on east swell; remote and rarely crowded.",
-    bestMonths: "May-Sep",
   },
   {
     id: "hyatt-reef",
@@ -901,29 +716,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Right near Keramas / Hyatt zone. Similar SE-E swell window; can be heavy on the reef.",
+    description: "Right near Keramas / Hyatt zone (listed on Surfline). SE–E swell window; can be heavy on the reef.",
     bestMonths: "May-Oct",
   },
-  {
-    id: "bias-tugel",
-    name: "Bias Tugel",
-    region: "East Coast",
-    catalog: "expanded",
-    lat: -8.5289,
-    lon: 115.5156,
-    faces: 115,
-    swellWindow: [75, 165],
-    offshoreWindow: [225, 315],
-    tidePreference: "mid",
-    skill: "beginner",
-    bottom: "Sand",
-    description:
-      "Small beach near Padangbai. Soft when it works; more swimming beach than serious break.",
-    bestMonths: "May-Oct",
-  },
-
-  // ── Expanded: West Coast ────────────────────────────────────────────
   {
     id: "balian",
     name: "Balian",
@@ -937,8 +732,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand / Rock",
-    description:
-      "River-mouth peaks on the west road. Punchier than Medewi; good mid-length days.",
+    description: "River-mouth peaks on the west road (listed on Surfline). Punchier than Medewi on the same SW pulse.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -954,8 +748,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand / Rock",
-    description:
-      "Between Balian and Medewi. Long walls on SW swell; often empty midweek.",
+    description: "Between Balian and Medewi. Long walls on SW swell; often empty midweek.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -971,8 +764,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand",
-    description:
-      "Beach break west of Tanah Lot. Fun peaks on SW; good day-trip from Canggu.",
+    description: "Beach break west of Tanah Lot. Fun SW peaks; common day-trip from Canggu.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -988,8 +780,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand",
-    description:
-      "Black-sand beach near Tanah Lot. Shifting peaks, mellow crowds compared to Canggu.",
+    description: "Black-sand beach near Tanah Lot. Shifting peaks; lighter crowds than Canggu.",
     bestMonths: "Apr-Oct",
   },
   {
@@ -1005,29 +796,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "all",
     skill: "intermediate",
     bottom: "Sand / Rock",
-    description:
-      "West of Medewi. Long left-leaning walls on solid SW; remote temple-coast vibe.",
+    description: "West of Medewi near the temple coast. Long left-leaning walls on solid SW swell.",
     bestMonths: "Apr-Oct",
   },
-  {
-    id: "perancak",
-    name: "Perancak",
-    region: "West Coast",
-    catalog: "expanded",
-    lat: -8.3911,
-    lon: 114.7256,
-    faces: 250,
-    swellWindow: [210, 290],
-    offshoreWindow: [40, 130],
-    tidePreference: "all",
-    skill: "intermediate",
-    bottom: "Sand",
-    description:
-      "Far west beach near Negara. Inconsistent but empty; worth a look on a west-coast run.",
-    bestMonths: "Apr-Oct",
-  },
-
-  // ── Expanded: Nusa Islands ──────────────────────────────────────────
   {
     id: "playgrounds",
     name: "Playgrounds (Lembongan)",
@@ -1041,8 +812,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "intermediate",
     bottom: "Reef",
-    description:
-      "Fun reef peaks on Nusa Lembongan. Works on SE-S swell; popular boat-access session.",
+    description: "Fun reef peaks on Nusa Lembongan. SE–S swell; popular boat-access session.",
     bestMonths: "May-Oct",
   },
   {
@@ -1058,8 +828,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "expert",
     bottom: "Reef",
-    description:
-      "Hollow right reef. Sharp coral — name is a warning. Needs clean SE swell and respect.",
+    description: "Hollow right reef on Lembongan. Sharp coral — the name is a warning. Clean SE swell only.",
     bestMonths: "May-Sep",
   },
   {
@@ -1075,8 +844,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Powerful right near the wreck. Long walls when lined up; boat or paddle access.",
+    description: "Powerful right near the wreck on Lembongan. Long walls when lined up; boat or paddle access.",
     bestMonths: "May-Oct",
   },
   {
@@ -1092,8 +860,7 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Nusa Ceningan reef point. Punchy rights on SE swell; smaller crowds than Playgrounds.",
+    description: "Nusa Ceningan reef point. Punchy rights on SE swell; smaller crowds than Playgrounds.",
     bestMonths: "May-Oct",
   },
   {
@@ -1109,63 +876,9 @@ export const BALI_SPOTS: Spot[] = [
     tidePreference: "mid",
     skill: "advanced",
     bottom: "Reef",
-    description:
-      "Hidden Lembongan reef section. Needs the right angle; often empty when main peaks are full.",
+    description: "Lembongan reef section away from the main peaks. Needs the right angle; often empty when Playgrounds is full.",
     bestMonths: "May-Sep",
-  },
-
-  // ── Expanded: North Bali ────────────────────────────────────────────
-  {
-    id: "lovina",
-    name: "Lovina",
-    region: "North Bali",
-    catalog: "expanded",
-    lat: -8.1589,
-    lon: 115.0267,
-    faces: 0,
-    swellWindow: [320, 40],
-    offshoreWindow: [140, 230],
-    tidePreference: "all",
-    skill: "beginner",
-    bottom: "Sand / Reef",
-    description:
-      "North coast — rarely a proper surf destination. Tiny windswell only; more dolphin bay than break.",
-    bestMonths: "Rare",
-  },
-  {
-    id: "tejakula",
-    name: "Tejakula",
-    region: "North Bali",
-    catalog: "expanded",
-    lat: -8.1411,
-    lon: 115.3589,
-    faces: 10,
-    swellWindow: [330, 50],
-    offshoreWindow: [150, 240],
-    tidePreference: "all",
-    skill: "intermediate",
-    bottom: "Reef / Sand",
-    description:
-      "Quiet north-east coast. Occasional small rights on rare N-NE energy; exploratory only.",
-    bestMonths: "Rare",
-  },
-  {
-    id: "amed",
-    name: "Amed",
-    region: "North Bali",
-    catalog: "expanded",
-    lat: -8.3389,
-    lon: 115.6589,
-    faces: 50,
-    swellWindow: [10, 100],
-    offshoreWindow: [180, 270],
-    tidePreference: "all",
-    skill: "beginner",
-    bottom: "Sand / Reef",
-    description:
-      "Dive coast on the far east-north. Minimal surf; included for map coverage, not barrels.",
-    bestMonths: "Rare",
-  },
+  }
 ];
 
 /** Spots shown in the app today. All catalogs are visible (no paywall yet). */
