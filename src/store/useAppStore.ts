@@ -7,7 +7,7 @@ import type {
  SurfSession,
  Units,
 } from "../types";
-import { BALI_SPOTS } from "../data/spots";
+import { BALI_SPOTS, visibleSpots } from "../data/spots";
 import { fetchManyForecasts, fetchSpotForecast } from "../services/openMeteo";
 import { parseForecastTime } from "../services/time";
 
@@ -79,13 +79,20 @@ export const useAppStore = create<AppState>()(
 
  refreshAll: async () => {
  if (get().loading) return;
+ const spots = visibleSpots();
+ // Favorites first so the dashboard fills quickly with a large catalog.
+ const favs = new Set(get().favorites);
+ const ordered = [
+   ...spots.filter((s) => favs.has(s.id)),
+   ...spots.filter((s) => !favs.has(s.id)),
+ ];
  set({
  loading: true,
  error: null,
- loadProgress: { done: 0, total: BALI_SPOTS.length },
+ loadProgress: { done: 0, total: ordered.length },
  });
  try {
- const map = await fetchManyForecasts(BALI_SPOTS, 4, (done, total) => {
+ const map = await fetchManyForecasts(ordered, 6, (done, total) => {
  set({ loadProgress: { done, total } });
  });
  const forecasts: Record<string, SpotForecast> = {};
@@ -101,8 +108,8 @@ export const useAppStore = create<AppState>()(
  error:
  loaded === 0
  ? "No forecasts loaded. Check your internet connection."
- : loaded < BALI_SPOTS.length
- ? `Loaded ${loaded}/${BALI_SPOTS.length} spots. Some requests failed.`
+ : loaded < ordered.length
+ ? `Loaded ${loaded}/${ordered.length} spots. Some requests failed.`
  : null,
  });
  } catch (e) {
@@ -209,7 +216,7 @@ export function currentHourly(fc: SpotForecast | undefined) {
  for (const h of fc.hourly) {
  const t = parseForecastTime(h.time).getTime();
  if (!Number.isFinite(t)) continue;
- // Prefer hours in a ±90 min window around now; else nearest
+ // Prefer hours in a Â±90 min window around now; else nearest
  const delta = t - now;
  const inWindow = delta >= -45 * 60_000 && delta <= 90 * 60_000;
  const score = inWindow ? Math.abs(delta) : Math.abs(delta) + 1e12;

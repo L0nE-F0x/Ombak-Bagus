@@ -102,12 +102,18 @@ export function SpotDetail() {
  </div>
  <p className="text-ocean-400 mt-1.5 text-xs sm:text-sm leading-relaxed">
  {spot.region}
- <span className="text-ocean-700 mx-1.5">|</span>
- <span className="capitalize">{spot.skill}</span>
- <span className="text-ocean-700 mx-1.5">|</span>
- {spot.bottom}
- <span className="text-ocean-700 mx-1.5">|</span>
- faces {dirToCompass(spot.faces)}
+            <span className="text-ocean-700 mx-1.5">|</span>
+            <span className="capitalize">{spot.skill}</span>
+            <span className="text-ocean-700 mx-1.5">|</span>
+            {spot.bottom}
+            {spot.catalog === "expanded" && (
+              <>
+                <span className="text-ocean-700 mx-1.5">|</span>
+                Expanded catalog
+              </>
+            )}
+            <span className="text-ocean-700 mx-1.5">|</span>
+            faces {dirToCompass(spot.faces)}
  </p>
  <p className="text-sm text-ocean-300 mt-2 max-w-2xl leading-relaxed">
  {spot.description}

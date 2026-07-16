@@ -59,6 +59,12 @@ export function SpotCard({
             <span className="capitalize">{spot.skill}</span>
             <span className="text-ocean-600 mx-1">|</span>
             {spot.bottom}
+            {spot.catalog === "expanded" && (
+              <>
+                <span className="text-ocean-600 mx-1">|</span>
+                <span className="text-ocean-300">Expanded</span>
+              </>
+            )}
           </p>
         </div>
         {now ? (

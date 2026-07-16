@@ -11,8 +11,8 @@ android {
         applicationId = "com.ombakbagus.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 19
-        versionName = "0.1.8"
+        versionCode = 20
+        versionName = "0.1.9"
     }
 
     // Explicit sideload signing (Android debug keystore conventions)

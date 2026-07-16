@@ -1,8 +1,13 @@
 import { useMemo, useState } from "react";
-import { BALI_SPOTS, REGIONS } from "../data/spots";
+import {
+  BALI_SPOTS,
+  EXPANDED_SPOT_COUNT,
+  REGIONS,
+  TOTAL_SPOT_COUNT,
+} from "../data/spots";
 import { currentHourly, useAppStore } from "../store/useAppStore";
 import { SpotCard } from "../components/SpotCard";
-import type { SkillLevel } from "../types";
+import type { SkillLevel, SpotCatalog } from "../types";
 
 export function Spots() {
   const forecasts = useAppStore((s) => s.forecasts);
@@ -10,6 +15,9 @@ export function Spots() {
   const regionFilter = useAppStore((s) => s.regionFilter);
   const setRegionFilter = useAppStore((s) => s.setRegionFilter);
   const [skillFilter, setSkillFilter] = useState<SkillLevel | "all">("all");
+  const [catalogFilter, setCatalogFilter] = useState<SpotCatalog | "all">(
+    "all"
+  );
   const [favOnly, setFavOnly] = useState(false);
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState<"rating" | "name" | "region">("rating");
@@ -18,13 +26,15 @@ export function Spots() {
     const filtered = BALI_SPOTS.filter((s) => {
       if (regionFilter && s.region !== regionFilter) return false;
       if (skillFilter !== "all" && s.skill !== skillFilter) return false;
+      if (catalogFilter !== "all" && s.catalog !== catalogFilter) return false;
       if (favOnly && !favorites.includes(s.id)) return false;
       if (query) {
         const q = query.toLowerCase();
         if (
           !s.name.toLowerCase().includes(q) &&
           !s.region.toLowerCase().includes(q) &&
-          !s.bottom.toLowerCase().includes(q)
+          !s.bottom.toLowerCase().includes(q) &&
+          !s.description.toLowerCase().includes(q)
         )
           return false;
       }
@@ -42,15 +52,27 @@ export function Spots() {
       if (rb !== ra) return rb - ra;
       return a.name.localeCompare(b.name);
     });
-  }, [regionFilter, skillFilter, favOnly, favorites, query, sortBy, forecasts]);
+  }, [
+    regionFilter,
+    skillFilter,
+    catalogFilter,
+    favOnly,
+    favorites,
+    query,
+    sortBy,
+    forecasts,
+  ]);
 
   return (
     <div className="space-y-4 md:space-y-5">
       <header>
         <h1 className="page-title">Bali spots</h1>
         <p className="page-sub">
-          {list.length} break{list.length === 1 ? "" : "s"} | swell windows
-          &amp; offshore winds
+          {list.length} of {TOTAL_SPOT_COUNT} breaks
+          <span className="text-ocean-600 mx-1">|</span>
+          {EXPANDED_SPOT_COUNT} expanded catalog
+          <span className="text-ocean-600 mx-1">|</span>
+          swell windows &amp; offshore winds
         </p>
       </header>
 
@@ -93,6 +115,18 @@ export function Spots() {
           <option value="expert">Expert</option>
         </select>
         <select
+          value={catalogFilter}
+          onChange={(e) =>
+            setCatalogFilter(e.target.value as SpotCatalog | "all")
+          }
+          className="select"
+          aria-label="Catalog"
+        >
+          <option value="all">All catalog</option>
+          <option value="core">Core spots</option>
+          <option value="expanded">Expanded</option>
+        </select>
+        <select
           value={sortBy}
           onChange={(e) =>
             setSortBy(e.target.value as "rating" | "name" | "region")
@@ -123,6 +157,7 @@ export function Spots() {
             onClick={() => {
               setQuery("");
               setSkillFilter("all");
+              setCatalogFilter("all");
               setFavOnly(false);
               setRegionFilter(null);
             }}

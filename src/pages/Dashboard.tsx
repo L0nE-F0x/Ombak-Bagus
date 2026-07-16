@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { BALI_SPOTS } from "../data/spots";
+import { BALI_SPOTS, TOTAL_SPOT_COUNT } from "../data/spots";
 import { currentHourly, useAppStore } from "../store/useAppStore";
 import { SpotCard } from "../components/SpotCard";
 import { DashboardTideStrip, RatingChart } from "../components/Charts";
@@ -40,7 +40,7 @@ export function Dashboard() {
  <div className="space-y-5 md:space-y-7">
  <header className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:justify-between gap-3 sm:gap-4">
  <div className="min-w-0">
- <p className="page-kicker">Bali | Asia/Makassar</p>
+ <p className="page-kicker">Bali | {TOTAL_SPOT_COUNT} spots | Asia/Makassar</p>
           <h1 className="page-title">Where should you paddle out?</h1>
           <p className="page-sub">
  {lastRefresh
@@ -70,7 +70,7 @@ export function Dashboard() {
               <path d="M3 18c3-4 5-4 8 0s5 4 8 0" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" opacity="0.55"/>
             </svg>
           </div>
- <p className="text-ocean-300">Fetching swell, wind & tides for Bali...</p>
+ <p className="text-ocean-300">Fetching swell, wind & tides for Bali spots...</p>
  {loadProgress && (
  <div className="mt-4 max-w-xs mx-auto h-2 rounded-full bg-ocean-800 overflow-hidden">
  <div

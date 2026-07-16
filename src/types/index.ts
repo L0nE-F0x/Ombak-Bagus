@@ -1,11 +1,16 @@
 export type Region =
- | "Bukit"
- | "Canggu"
- | "East Coast"
- | "Sanur"
- | "Nusa Dua"
- | "West Coast"
- | "Uluwatu Area";
+  | "Bukit"
+  | "Canggu"
+  | "Kuta-Seminyak"
+  | "East Coast"
+  | "Sanur"
+  | "Nusa Dua"
+  | "West Coast"
+  | "Nusa Islands"
+  | "North Bali";
+
+/** Access tier for monetization later. All spots are free/visible for now. */
+export type SpotCatalog = "core" | "expanded";
 
 export type TidePreference = "low" | "mid" | "high" | "all";
 export type SkillLevel = "beginner" | "intermediate" | "advanced" | "expert";
@@ -20,10 +25,12 @@ export type MarineModelId =
  | "meteofrance_wave";
 
 export interface Spot {
- id: string;
- name: string;
- region: Region;
- lat: number;
+  id: string;
+  name: string;
+  region: Region;
+  /** core = original set; expanded = larger catalog (future paywall candidate) */
+  catalog: SpotCatalog;
+  lat: number;
  lon: number;
  /** Degrees the reef/beach faces (swell direction that hits best) */
  faces: number;

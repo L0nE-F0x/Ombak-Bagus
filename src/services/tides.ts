@@ -14,16 +14,18 @@ interface Constituent {
 }
 
 const REGION_TUNE: Record<
- string,
- { scale: number; phaseHours: number; msl: number }
+  string,
+  { scale: number; phaseHours: number; msl: number }
 > = {
- Bukit: { scale: 1.0, phaseHours: 0, msl: 1.15 },
- Canggu: { scale: 0.95, phaseHours: 0.15, msl: 1.1 },
- "East Coast": { scale: 0.9, phaseHours: 0.4, msl: 1.05 },
- Sanur: { scale: 0.92, phaseHours: 0.35, msl: 1.05 },
- "Nusa Dua": { scale: 0.98, phaseHours: 0.1, msl: 1.12 },
- "West Coast": { scale: 0.85, phaseHours: -0.2, msl: 1.0 },
- "Uluwatu Area": { scale: 1.0, phaseHours: 0, msl: 1.15 },
+  Bukit: { scale: 1.0, phaseHours: 0, msl: 1.15 },
+  Canggu: { scale: 0.95, phaseHours: 0.15, msl: 1.1 },
+  "Kuta-Seminyak": { scale: 0.96, phaseHours: 0.12, msl: 1.1 },
+  "East Coast": { scale: 0.9, phaseHours: 0.4, msl: 1.05 },
+  Sanur: { scale: 0.92, phaseHours: 0.35, msl: 1.05 },
+  "Nusa Dua": { scale: 0.98, phaseHours: 0.1, msl: 1.12 },
+  "West Coast": { scale: 0.85, phaseHours: -0.2, msl: 1.0 },
+  "Nusa Islands": { scale: 0.94, phaseHours: 0.25, msl: 1.08 },
+  "North Bali": { scale: 0.75, phaseHours: 0.5, msl: 0.95 },
 };
 
 const CONSTITUENTS: Constituent[] = [

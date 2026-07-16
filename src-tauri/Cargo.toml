@@ -1,6 +1,6 @@
 [package]
 name = "ombak-bagus"
-version = "0.1.8"
+version = "0.1.9"
 description = "Ombak Bagus - Bali surf forecast desktop app"
 authors = ["you"]
 edition = "2021"
