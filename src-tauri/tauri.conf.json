@@ -28,7 +28,10 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["nsis", "dmg"],
+    "targets": [
+      "nsis",
+      "dmg"
+    ],
     "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
@@ -52,7 +55,7 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJDQUYzRkNDOTExRjE2QTcKUldTbkZoK1J6RCt2dkpHejJlYzRmY0F1NFhNbzlKME1hK3JHWHRnUFlXR2VJQkN5blcwUFlWMEYK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEVCQjc2MzY0Mzg2REY4OUIKUldTYitHMDRaR08zNjMzSjJEaHF1VVMzL1N4UCttQ2JmRnNIdGNqR0ZINkI5YVlwWTlTVUduQnYK",
       "endpoints": [
         "https://github.com/L0nE-F0x/Ombak-Bagus/releases/latest/download/latest.json"
       ]
